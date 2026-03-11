@@ -1,0 +1,217 @@
+<body>
+
+<h2>Login</h2>
+
+<div class="login-block">
+    Email:<br/>
+    <input type="text" id="email" />
+</div>
+
+<div class="login-block">
+    Password:<br/>
+    <input type="password" id="password" />
+</div>
+
+<input type="button" onclick="getToken()" value="Login" />
+
+<hr/>
+
+<h2>Cookie:</h2>
+<div id="doc-cookie">&nbsp;</div>
+
+<br/>
+<input type="button" onclick="updateCookie()" value="Update"/>
+
+<hr/>
+
+<div id="appSection" style="display:none;">
+    <h2>System</h2>
+
+    <button onclick="loadEntity('AgentsContrl')">Agents</button>
+    <button onclick="loadEntity('CntrProfessions')">Professions</button>
+    <button onclick="loadEntity('CntrProfessionEmployer')">Profession Employer</button>
+    <button onclick="loadEntity('CntrOperations')">Operations</button>
+    <button onclick="loadEntity('CntrWorks')">Works</button>
+    <button onclick="loadEntity('CntrAccrualsType')">AccrualsType</button>
+    <button onclick="loadEntity('CntrAccruals')">Accruals</button>
+    <button onclick="loadEntity('CntrPayments')">Payments</button>
+
+    <div id="content"></div>
+</div>
+
+<script>
+
+var accessToken = "";
+var refreshToken = "";
+function setCookie(){
+    var date = new Date(Date.now() + 60 * 60 * 1000);
+    date = date.toUTCString();
+
+    document.cookie =
+        "accessToken=" + encodeURIComponent(accessToken) +
+        "; expires=" + date + "; path=/";
+
+    document.cookie =
+        "refreshToken=" + encodeURIComponent(refreshToken) +
+        "; expires=" + date + "; path=/";
+}
+
+function updateCookie(){
+    var doc = document.getElementById("doc-cookie");
+    if(doc){
+        doc.innerText = document.cookie;
+    }
+}
+
+async function getToken(){
+    var email = document.getElementById("email").value;
+    var password = document.getElementById("password").value;
+
+    const response = await fetch("http://localhost:3306/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password })
+    });
+
+    if (!response.ok) {
+        alert("Ошибка авторизации");
+        return;
+    }
+
+    const data = await response.json();
+
+    accessToken = data.accessToken;
+    refreshToken = data.refreshToken;
+
+    setCookie();
+    updateCookie();
+
+    document.getElementById("appSection").style.display = "block";
+}
+
+function getAccessToken(){
+    const cookies = document.cookie.split(";");
+    for (let c of cookies) {
+        let [key, val] = c.trim().split("=");
+        if (key === "accessToken") return decodeURIComponent(val);
+    }
+    return null;
+}
+
+async function apiRequest(url, method="GET", body=null){
+
+    const token = getAccessToken();
+
+    const response = await fetch("http://localhost:3306/" + url, {
+        method: method,
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer " + token
+        },
+        body: body ? JSON.stringify(body) : null
+    });
+
+    if (!response.ok){
+        alert("Ошибка API: " + response.status);
+        return null;
+    }
+
+    if (response.status === 204)
+        return null;
+
+    return await response.json();
+}
+
+async function loadEntity(controller){
+
+    const data = await apiRequest(controller);
+
+    if(!data) return;
+
+    renderTable(data, controller);
+}
+
+function renderTable(data, controller){
+
+    const content = document.getElementById("content");
+    content.innerHTML = "";
+
+    if(data.length === 0){
+        content.innerHTML = "Нет данных";
+        return;
+    }
+
+    const table = document.createElement("table");
+    const headerRow = document.createElement("tr");
+
+    Object.keys(data[0]).forEach(key => {
+        const th = document.createElement("th");
+        th.innerText = key;
+        headerRow.appendChild(th);
+    });
+
+    const actionTh = document.createElement("th");
+    actionTh.innerText = "Actions";
+    headerRow.appendChild(actionTh);
+
+    table.appendChild(headerRow);
+
+    data.forEach(item => {
+        const row = document.createElement("tr");
+
+        Object.values(item).forEach(value => {
+            const td = document.createElement("td");
+            td.innerText = value;
+            row.appendChild(td);
+        });
+
+        const actions = document.createElement("td");
+
+        const delBtn = document.createElement("button");
+        delBtn.innerText = "Delete";
+        delBtn.onclick = async () => {
+            const idKey = Object.keys(item)[0];
+            await apiRequest(controller + "/" + item[idKey], "DELETE");
+            loadEntity(controller);
+        };
+
+        actions.appendChild(delBtn);
+        row.appendChild(actions);
+
+        table.appendChild(row);
+    });
+
+    const addBtn = document.createElement("button");
+    addBtn.innerText = "Add new";
+    addBtn.onclick = () => showAddForm(controller);
+
+    content.appendChild(addBtn);
+    content.appendChild(table);
+}
+
+function showAddForm(controller){
+
+    const content = document.getElementById("content");
+    content.innerHTML = "<h3>Add new item</h3>";
+
+    const textarea = document.createElement("textarea");
+    textarea.style.width = "100%";
+    textarea.style.height = "100px";
+    textarea.placeholder = "Введите JSON объекта";
+
+    const saveBtn = document.createElement("button");
+    saveBtn.innerText = "Save";
+
+    saveBtn.onclick = async () => {
+        const body = JSON.parse(textarea.value);
+        await apiRequest(controller, "POST", body);
+        loadEntity(controller);
+    };
+
+    content.appendChild(textarea);
+    content.appendChild(saveBtn);
+}
+
+</script>
+
+</body>

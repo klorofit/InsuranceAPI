@@ -1,0 +1,86 @@
+using System.Data;
+using Microsoft.Data.Sqlite;
+using MyAPP.Common;
+using MyAPP.Driver;
+using MyAPP.Driver.SQLiteDAO;
+
+namespace MyAPP.Driver.SQLiteDAO;
+
+class DBPayments : IDBPayments
+{
+    private Payments FromReader(SqliteDataReader reader)
+    {
+        return new Payments
+        {
+            PaymentsID = (int)reader.GetInt64("PaymentsID"),
+            Method = reader.GetString("Method"),
+            Reference = reader.GetString("Reference"),
+            Amount = (float)reader.GetDouble("Amount"),
+            PolicyID = (int)reader.GetInt64("PolicyID"),
+            PaymentDate = reader.GetDateTime("PaymentDate")
+        };
+    }
+    public void Delete(int id)
+    {
+        string query = "DELETE FROM Payments WHERE PaymentsID = @id";
+        var parameters = new List<SqliteParameter>
+        {
+            new SqliteParameter("@id", id)
+        };
+        
+        DAO.Instance.ExecuteNonQuery(query, parameters);
+    }
+    public Payments? Get(int id)
+    {
+        string query = "SELECT PaymentsID, Method, Reference, Amount, PolicyID, PaymentDate FROM Payments WHERE PaymentsID = @id";
+        var parameters = new List<SqliteParameter>
+        {
+            new SqliteParameter("@id", id)
+        };
+        
+        return DAO.Instance.ReadSingle(query, FromReader, parameters);
+    }
+    public List<Payments> Get()
+    {
+        string query = "SELECT PaymentsID, Method, Reference, Amount, PolicyID, PaymentDate FROM Payments";
+        return DAO.Instance.ExecuteReader(query, FromReader);
+    }
+    public void Put(int id, Payments item)
+    {
+        string query = @"UPDATE Payments
+                        SET Method = @Method, 
+                            Reference = @Reference, 
+                            Amount = @Amount, 
+                            PolicyID = @PolicyID,
+                            PaymentDate = @PaymentDate
+                        WHERE PaymentsID = @PaymentsID";
+        
+        var parameters = new List<SqliteParameter>
+        {
+            new SqliteParameter("@PaymentsID", item.PaymentsID),
+            new SqliteParameter("@Method", item.Method),
+            new SqliteParameter("@Reference", item.Reference),
+            new SqliteParameter("@Amount", item.Amount),
+            new SqliteParameter("@PolicyID", item.PolicyID),
+            new SqliteParameter("@PaymentDate", item.PaymentDate)
+        };
+        
+        DAO.Instance.ExecuteNonQuery(query, parameters);
+    }
+    public void Post(Payments item)
+    {
+        string query = "INSERT INTO Payments (PaymentsID, Method, Reference, Amount, PolicyID, PaymentDate) VALUES (@PaymentsID, @Method, @Amount, @PolicyID, @PaymentDate)";
+        
+        var parameters = new List<SqliteParameter>
+        {
+            new SqliteParameter("@PaymentsID", item.PaymentsID),
+            new SqliteParameter("@Method", item.Method),
+            new SqliteParameter("@Reference", item.Reference),
+            new SqliteParameter("@Amount", item.Amount),
+            new SqliteParameter("@PolicyID", item.PolicyID),
+            new SqliteParameter("@PaymentDate", item.PaymentDate)
+        };
+        
+        DAO.Instance.ExecuteNonQuery(query, parameters);
+    }
+}
