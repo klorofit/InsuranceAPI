@@ -33,7 +33,7 @@ namespace MyAPP.Driver.MariaDB
     { 
     var noDbBuilder = new MySqlConnectionStringBuilder 
         {
-        Server = config.Location ?? "::1:3306",
+        Server = config.Location ?? "::1:5000",
         UserID = config.UserName ?? "root",
         Password = config.Password ?? "",
         Database = null! 
@@ -49,7 +49,7 @@ namespace MyAPP.Driver.MariaDB
     {
         var builder = new MySqlConnectionStringBuilder 
         { 
-            Server = config.Location ?? "::1:3306", 
+            Server = config.Location ?? "::1:5000", 
             Database = config.DataBase ?? "myapp",
             UserID = config.UserName ?? "root",
             Password = config.Password ?? "",

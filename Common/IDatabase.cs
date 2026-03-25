@@ -1,11 +1,10 @@
 
-
 namespace MyAPP.Common
 {
     public interface IDatabase
     {
         IDBAgents Agents { get; }
-        IDBAgrementsVehicles AgrementsVehicles { get; }
+        IDBAgreementsVehicles AgreementsVehicles { get; }
         IDBClients Clients { get; }
         IDBInsurance Insurance { get; }
         IDBInsuranceTypes InsuranceTypes { get; }

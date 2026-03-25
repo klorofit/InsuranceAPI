@@ -90,8 +90,8 @@ public class DDL
             FOREIGN KEY (InsuranceID) REFERENCES Insurance(InsuranceID),
             FOREIGN KEY (AgentsID) REFERENCES Agents(AgentsID)
         );",
-        @"CREATE UNIQUE INDEX IF NOT EXISTS UX_Policies_Number
-         ON Policies (Policy_number);",
+        @"CREATE UNIQUE INDEX IF NOT EXISTS UX_Policy_Number
+         ON Policies (PolicyNumber);",
         @"CREATE INDEX IF NOT EXISTS idx_policies_clients
          ON Policies (ClientsID);",
         @"CREATE INDEX IF NOT EXISTS idx_policies_insurance
@@ -108,7 +108,7 @@ public class DDL
             Reference TEXT,
             FOREIGN KEY (PoliciesID) REFERENCES Policies(PoliciesID)
         );",
-        @"CREATE INDEX IF NOT EXISTS idx_payments_policy
+        @"CREATE INDEX IF NOT EXISTS idx_payments_policies
          ON Payments (PoliciesID);",
 
 
@@ -119,6 +119,7 @@ public class DDL
             FOREIGN KEY (PoliciesID) REFERENCES Policies(PoliciesID),
             FOREIGN KEY (VehiclesID) REFERENCES Vehicles(VehiclesID)
         );",
+
         @"CREATE INDEX IF NOT EXISTS idx_agreements_vehicles_policies
          ON AgreementsVehicles (PoliciesID);",
         @"CREATE INDEX IF NOT EXISTS idx_agreements_vehicles_vehicles

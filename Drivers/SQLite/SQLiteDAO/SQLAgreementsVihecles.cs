@@ -6,20 +6,20 @@ using MyAPP.Driver.SQLiteDAO;
 
 namespace MyAPP.Driver.SQLiteDAO;
 
-class DBAgrementsVehicles : IDBAgrementsVehicles
+class DBAgreementsVehicles : IDBAgreementsVehicles
 {
-    private AgrementsVehicles FromReader(SqliteDataReader reader)
+    private AgreementsVehicles FromReader(SqliteDataReader reader)
     {
-        return new AgrementsVehicles
+        return new AgreementsVehicles
         {
-            AgrementsVehiclesID = (int)reader.GetInt64("AgrementsVehiclesID"),
+            AgreementsVehiclesID = (int)reader.GetInt64("AgreementsVehiclesID"),
             PoliciesID = (int)reader.GetInt64("PoliciesID"),
             VehiclesID = (int)reader.GetInt64("VehiclesID")
         };
     }
     public void Delete(int id)
     {
-        string query = "DELETE FROM AgrementsVehicles WHERE AgrementsVehiclesID = @id";
+        string query = "DELETE FROM AgreementsVehicles WHERE AgreementsVehiclesID = @id";
         var parameters = new List<SqliteParameter>
         {
             new SqliteParameter("@id", id)
@@ -27,9 +27,9 @@ class DBAgrementsVehicles : IDBAgrementsVehicles
         
         DAO.Instance.ExecuteNonQuery(query, parameters);
     }
-    public AgrementsVehicles? Get(int id)
+    public AgreementsVehicles? Get(int id)
     {
-        string query = "SELECT AgrementsVehiclesID, PoliciesID, VehiclesID FROM AgrementsVehicles WHERE AgrementsVehiclesID = @id";
+        string query = "SELECT AgreementsVehiclesID, PoliciesID, VehiclesID FROM AgreementsVehicles WHERE AgreementsVehiclesID = @id";
         var parameters = new List<SqliteParameter>
         {
             new SqliteParameter("@id", id)
@@ -37,34 +37,34 @@ class DBAgrementsVehicles : IDBAgrementsVehicles
         
         return DAO.Instance.ReadSingle(query, FromReader, parameters);
     }
-    public List<AgrementsVehicles> Get()
+    public List<AgreementsVehicles> Get()
     {
-        string query = "SELECT AgrementsVehiclesID, PoliciesID, VehiclesID FROM AgrementsVehicles";
+        string query = "SELECT AgreementsVehiclesID, PoliciesID, VehiclesID FROM AgreementsVehicles";
         return DAO.Instance.ExecuteReader(query, FromReader);
     }
-    public void Put(int id, AgrementsVehicles item)
+    public void Put(int id, AgreementsVehicles item)
     {
-        string query = @"UPDATE AgrementsVehicles
+        string query = @"UPDATE AgreementsVehicles
                         SET PoliciesID = @PoliciesID, 
                             VehiclesID = @VehiclesID
-                        WHERE AgrementsVehiclesID = @AgrementsVehicles";
+                        WHERE AgreementsVehiclesID = @AgreementsVehicles";
         
         var parameters = new List<SqliteParameter>
         {
-            new SqliteParameter("@AgrementsVehiclesID", item.AgrementsVehiclesID),
+            new SqliteParameter("@AgreementsVehiclesID", item.AgreementsVehiclesID),
             new SqliteParameter("@PoliciesID", item.PoliciesID),
             new SqliteParameter("@VehiclesID", item.VehiclesID)
         };
         
         DAO.Instance.ExecuteNonQuery(query, parameters);
     }
-    public void Post(AgrementsVehicles item)
+    public void Post(AgreementsVehicles item)
     {
-        string query = "INSERT INTO AgrementsVehicles (AgrementsVehiclesID, PoliciesID, VehiclesID) VALUES (@AgrementsVehiclesID, @PoliciesID, @VehiclesID)";
+        string query = "INSERT INTO AgreementsVehicles (AgreementsVehiclesID, PoliciesID, VehiclesID) VALUES (@AgreementsVehiclesID, @PoliciesID, @VehiclesID)";
         
         var parameters = new List<SqliteParameter>
         {
-            new SqliteParameter("@AgrementsVehiclesID", item.AgrementsVehiclesID),
+            new SqliteParameter("@AgreementsVehiclesID", item.AgreementsVehiclesID),
             new SqliteParameter("@PoliciesID", item.PoliciesID),
             new SqliteParameter("@VehiclesID", item.VehiclesID)
         };

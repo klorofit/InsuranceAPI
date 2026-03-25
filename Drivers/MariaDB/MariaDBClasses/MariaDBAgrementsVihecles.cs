@@ -7,20 +7,20 @@ using MySqlConnector;
 
 namespace MyAPP.Driver.MariaDB;
 
-class MariaDBAgrementsVehicles : IDBAgrementsVehicles
+class MariaDBAgreementsVehicles : IDBAgreementsVehicles
 {
-    private AgrementsVehicles FromReader(MySqlDataReader reader)
+    private AgreementsVehicles FromReader(MySqlDataReader reader)
     {
-        return new AgrementsVehicles
+        return new AgreementsVehicles
         {
-            AgrementsVehiclesID = (int)reader.GetInt64("AgrementsVehiclesID"),
+            AgreementsVehiclesID = (int)reader.GetInt64("AgreementsVehiclesID"),
             PoliciesID = (int)reader.GetInt64("PoliciesID"),
             VehiclesID = (int)reader.GetInt64("VehiclesID")
         };
     }
     public void Delete(int id)
     {
-        string query = "DELETE FROM AgrementsVehicles WHERE AgrementsVehiclesID = @id";
+        string query = "DELETE FROM AgreementsVehicles WHERE AgreementsVehiclesID = @id";
         var parameters = new List<MySqlParameter>
         {
             new MySqlParameter("@id", id)
@@ -28,9 +28,9 @@ class MariaDBAgrementsVehicles : IDBAgrementsVehicles
         
         DAO.Instance.ExecuteNonQuery(query, parameters);
     }
-    public AgrementsVehicles? Get(int id)
+    public AgreementsVehicles? Get(int id)
     {
-        string query = "SELECT AgrementsVehiclesID, PoliciesID, VehiclesID FROM AgrementsVehicles WHERE AgrementsVehiclesID = @id";
+        string query = "SELECT AgreementsVehiclesID, PoliciesID, VehiclesID FROM AgreementsVehicles WHERE AgreementsVehiclesID = @id";
         var parameters = new List<MySqlParameter>
         {
             new MySqlParameter("@id", id)
@@ -38,34 +38,34 @@ class MariaDBAgrementsVehicles : IDBAgrementsVehicles
         
         return DAO.Instance.ReadSingle(query, FromReader, parameters);
     }
-    public List<AgrementsVehicles> Get()
+    public List<AgreementsVehicles> Get()
     {
-        string query = "SELECT AgrementsVehiclesID, PoliciesID, VehiclesID FROM AgrementsVehicles";
+        string query = "SELECT AgreementsVehiclesID, PoliciesID, VehiclesID FROM AgreementsVehicles";
         return DAO.Instance.ExecuteReader(query, FromReader);
     }
-    public void Put(int id, AgrementsVehicles item)
+    public void Put(int id, AgreementsVehicles item)
     {
-        string query = @"UPDATE AgrementsVehicles
+        string query = @"UPDATE AgreementsVehicles
                         SET PoliciesID = @PoliciesID, 
                             VehiclesID = @VehiclesID
-                        WHERE AgrementsVehiclesID = @AgrementsVehicles";
+                        WHERE AgreementsVehiclesID = @AgreementsVehicles";
         
         var parameters = new List<MySqlParameter>
         {
-            new MySqlParameter("@AgrementsVehiclesID", item.AgrementsVehiclesID),
+            new MySqlParameter("@AgreementsVehiclesID", item.AgreementsVehiclesID),
             new MySqlParameter("@PoliciesID", item.PoliciesID),
             new MySqlParameter("@VehiclesID", item.VehiclesID)
         };
         
         DAO.Instance.ExecuteNonQuery(query, parameters);
     }
-    public void Post(AgrementsVehicles item)
+    public void Post(AgreementsVehicles item)
     {
-        string query = "INSERT INTO AgrementsVehicles (AgrementsVehiclesID, PoliciesID, VehiclesID) VALUES (@AgrementsVehiclesID, @PoliciesID, @VehiclesID)";
+        string query = "INSERT INTO AgreementsVehicles (AgreementsVehiclesID, PoliciesID, VehiclesID) VALUES (@AgreementsVehiclesID, @PoliciesID, @VehiclesID)";
         
         var parameters = new List<MySqlParameter>
         {
-            new MySqlParameter("@AgrementsVehiclesID", item.AgrementsVehiclesID),
+            new MySqlParameter("@AgreementsVehiclesID", item.AgreementsVehiclesID),
             new MySqlParameter("@PoliciesID", item.PoliciesID),
             new MySqlParameter("@VehiclesID", item.VehiclesID)
         };

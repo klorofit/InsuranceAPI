@@ -7,7 +7,7 @@ public class Payments
     private string _reference = string.Empty;
     
     public int PaymentsID { get; set; }
-    public int PolicyID { get; set; }
+    public int PoliciesID { get; set; }
     public DateTime PaymentDate { get; set; }
     public float Amount { get; set; }
     

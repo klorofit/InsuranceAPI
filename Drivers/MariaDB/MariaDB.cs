@@ -12,7 +12,7 @@ namespace MyAPP.Driver.MariaDB;
                 DAO.Initialize(config);
         }
         public IDBAgents Agents => new MariaDBAgents();
-        public IDBAgrementsVehicles AgrementsVehicles => new MariaDBAgrementsVehicles();
+        public IDBAgreementsVehicles AgreementsVehicles => new MariaDBAgreementsVehicles();
         public IDBClients Clients => new MariaDBClients();
         public IDBInsurance Insurance => new MariaDBInsurance();
         public IDBInsuranceTypes InsuranceTypes => new MariaDBInsuranceTypes();

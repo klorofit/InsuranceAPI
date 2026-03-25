@@ -16,7 +16,7 @@ class DBPayments : IDBPayments
             Method = reader.GetString("Method"),
             Reference = reader.GetString("Reference"),
             Amount = (float)reader.GetDouble("Amount"),
-            PolicyID = (int)reader.GetInt64("PolicyID"),
+            PoliciesID = (int)reader.GetInt64("PoliciesID"),
             PaymentDate = reader.GetDateTime("PaymentDate")
         };
     }
@@ -32,7 +32,7 @@ class DBPayments : IDBPayments
     }
     public Payments? Get(int id)
     {
-        string query = "SELECT PaymentsID, Method, Reference, Amount, PolicyID, PaymentDate FROM Payments WHERE PaymentsID = @id";
+        string query = "SELECT PaymentsID, Method, Reference, Amount, PoliciesID, PaymentDate FROM Payments WHERE PaymentsID = @id";
         var parameters = new List<SqliteParameter>
         {
             new SqliteParameter("@id", id)
@@ -42,7 +42,7 @@ class DBPayments : IDBPayments
     }
     public List<Payments> Get()
     {
-        string query = "SELECT PaymentsID, Method, Reference, Amount, PolicyID, PaymentDate FROM Payments";
+        string query = "SELECT PaymentsID, Method, Reference, Amount, PoliciesID, PaymentDate FROM Payments";
         return DAO.Instance.ExecuteReader(query, FromReader);
     }
     public void Put(int id, Payments item)
@@ -51,7 +51,7 @@ class DBPayments : IDBPayments
                         SET Method = @Method, 
                             Reference = @Reference, 
                             Amount = @Amount, 
-                            PolicyID = @PolicyID,
+                            PoliciesID = @PoliciesID,
                             PaymentDate = @PaymentDate
                         WHERE PaymentsID = @PaymentsID";
         
@@ -61,7 +61,7 @@ class DBPayments : IDBPayments
             new SqliteParameter("@Method", item.Method),
             new SqliteParameter("@Reference", item.Reference),
             new SqliteParameter("@Amount", item.Amount),
-            new SqliteParameter("@PolicyID", item.PolicyID),
+            new SqliteParameter("@PoliciesID", item.PoliciesID),
             new SqliteParameter("@PaymentDate", item.PaymentDate)
         };
         
@@ -69,7 +69,7 @@ class DBPayments : IDBPayments
     }
     public void Post(Payments item)
     {
-        string query = "INSERT INTO Payments (PaymentsID, Method, Reference, Amount, PolicyID, PaymentDate) VALUES (@PaymentsID, @Method, @Amount, @PolicyID, @PaymentDate)";
+        string query = "INSERT INTO Payments (PaymentsID, Method, Reference, Amount, PoliciesID, PaymentDate) VALUES (@PaymentsID, @Method, @Amount, @PoliciesID, @PaymentDate)";
         
         var parameters = new List<SqliteParameter>
         {
@@ -77,7 +77,7 @@ class DBPayments : IDBPayments
             new SqliteParameter("@Method", item.Method),
             new SqliteParameter("@Reference", item.Reference),
             new SqliteParameter("@Amount", item.Amount),
-            new SqliteParameter("@PolicyID", item.PolicyID),
+            new SqliteParameter("@PoliciesID", item.PoliciesID),
             new SqliteParameter("@PaymentDate", item.PaymentDate)
         };
         

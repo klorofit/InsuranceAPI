@@ -550,11 +550,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\user\\Desktop\\API\\Drivers\\SQLite\\SQLite.csproj",
+      "projectUniqueName": "C:\\Users\\user\\Desktop\\git\\InsuranceAPI\\Drivers\\SQLite\\SQLite.csproj",
       "projectName": "SQLite",
-      "projectPath": "C:\\Users\\user\\Desktop\\API\\Drivers\\SQLite\\SQLite.csproj",
+      "projectPath": "C:\\Users\\user\\Desktop\\git\\InsuranceAPI\\Drivers\\SQLite\\SQLite.csproj",
       "packagesPath": "C:\\Users\\user\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\user\\Desktop\\API\\Drivers\\SQLite\\obj\\",
+      "outputPath": "C:\\Users\\user\\Desktop\\git\\InsuranceAPI\\Drivers\\SQLite\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\user\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -569,8 +569,8 @@
         "net9.0": {
           "targetAlias": "net9.0",
           "projectReferences": {
-            "C:\\Users\\user\\Desktop\\API\\Common\\Common.csproj": {
-              "projectPath": "C:\\Users\\user\\Desktop\\API\\Common\\Common.csproj"
+            "C:\\Users\\user\\Desktop\\git\\InsuranceAPI\\Common\\Common.csproj": {
+              "projectPath": "C:\\Users\\user\\Desktop\\git\\InsuranceAPI\\Common\\Common.csproj"
             }
           }
         }

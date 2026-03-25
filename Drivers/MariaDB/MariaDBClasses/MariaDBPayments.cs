@@ -17,7 +17,7 @@ class MariaDBPayments : IDBPayments
             Method = reader.GetString("Method"),
             Reference = reader.GetString("Reference"),
             Amount = (float)reader.GetDouble("Amount"),
-            PolicyID = (int)reader.GetInt64("PolicyID"),
+            PoliciesID = (int)reader.GetInt64("PoliciesID"),
             PaymentDate = reader.GetDateTime("PaymentDate")
         };
     }
@@ -33,7 +33,7 @@ class MariaDBPayments : IDBPayments
     }
     public Payments? Get(int id)
     {
-        string query = "SELECT PaymentsID, Method, Reference, Amount, PolicyID, PaymentDate FROM Payments WHERE PaymentsID = @id";
+        string query = "SELECT PaymentsID, Method, Reference, Amount, PoliciesID, PaymentDate FROM Payments WHERE PaymentsID = @id";
         var parameters = new List<MySqlParameter>
         {
             new MySqlParameter("@id", id)
@@ -43,7 +43,7 @@ class MariaDBPayments : IDBPayments
     }
     public List<Payments> Get()
     {
-        string query = "SELECT PaymentsID, Method, Reference, Amount, PolicyID, PaymentDate FROM Payments";
+        string query = "SELECT PaymentsID, Method, Reference, Amount, PoliciesID, PaymentDate FROM Payments";
         return DAO.Instance.ExecuteReader(query, FromReader);
     }
     public void Put(int id, Payments item)
@@ -52,7 +52,7 @@ class MariaDBPayments : IDBPayments
                         SET Method = @Method, 
                             Reference = @Reference, 
                             Amount = @Amount, 
-                            PolicyID = @PolicyID,
+                            PoliciesID = @PoliciesID,
                             PaymentDate = @PaymentDate
                         WHERE PaymentsID = @PaymentsID";
         
@@ -62,7 +62,7 @@ class MariaDBPayments : IDBPayments
             new MySqlParameter("@Method", item.Method),
             new MySqlParameter("@Reference", item.Reference),
             new MySqlParameter("@Amount", item.Amount),
-            new MySqlParameter("@PolicyID", item.PolicyID),
+            new MySqlParameter("@PoliciesID", item.PoliciesID),
             new MySqlParameter("@PaymentDate", item.PaymentDate)
         };
         
@@ -70,7 +70,7 @@ class MariaDBPayments : IDBPayments
     }
     public void Post(Payments item)
     {
-        string query = "INSERT INTO Payments (PaymentsID, Method, Reference, Amount, PolicyID, PaymentDate) VALUES (@PaymentsID, @Method, @Amount, @PolicyID, @PaymentDate)";
+        string query = "INSERT INTO Payments (PaymentsID, Method, Reference, Amount, PoliciesID, PaymentDate) VALUES (@PaymentsID, @Method, @Amount, @PoliciesID, @PaymentDate)";
         
         var parameters = new List<MySqlParameter>
         {
@@ -78,7 +78,7 @@ class MariaDBPayments : IDBPayments
             new MySqlParameter("@Method", item.Method),
             new MySqlParameter("@Reference", item.Reference),
             new MySqlParameter("@Amount", item.Amount),
-            new MySqlParameter("@PolicyID", item.PolicyID),
+            new MySqlParameter("@PoliciesID", item.PoliciesID),
             new MySqlParameter("@PaymentDate", item.PaymentDate)
         };
         

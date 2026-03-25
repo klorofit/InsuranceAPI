@@ -5,7 +5,7 @@
             "Name": "MariaDB",
             "LIB": "MariaDB.dll",
             "DBConfig": {
-                "Location": "[::1]:3306",
+                "Location": "[::1]:5000",
                 "Database": "myapp",
                 "UserName": "root",
                 "Password": ""
@@ -13,7 +13,7 @@
         },
         {
             "Name": "SQLite",
-            "LIB": "SQLile.dll",
+            "LIB": "SQLite.dll",
             "DBConfig": {
                 "Location": "app.db"
             }

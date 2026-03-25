@@ -46,13 +46,13 @@ public sealed class DAO
   }
   catch (TargetInvocationException tie)
   {
-      Console.WriteLine("=== DAO inner exception ===");
+      Console.WriteLine("DAO inner exception");
       Console.WriteLine(tie.InnerException?.ToString() ?? tie.ToString());
       throw;
   }
   catch (Exception ex)
   {
-      Console.WriteLine("=== DAO create instance failed ==="); 
+      Console.WriteLine("DAO create instance failed"); 
       Console.WriteLine(ex.ToString());
       throw;
   }});

@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\user\\Desktop\\API\\Drivers\\MariaDB\\MariaDB.csproj": {}
+    "C:\\Users\\user\\Desktop\\git\\InsuranceAPI\\Drivers\\MariaDB\\MariaDB.csproj": {}
   },
   "projects": {
-    "C:\\Users\\user\\Desktop\\API\\Common\\Common.csproj": {
+    "C:\\Users\\user\\Desktop\\git\\InsuranceAPI\\Common\\Common.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\user\\Desktop\\API\\Common\\Common.csproj",
+        "projectUniqueName": "C:\\Users\\user\\Desktop\\git\\InsuranceAPI\\Common\\Common.csproj",
         "projectName": "Common",
-        "projectPath": "C:\\Users\\user\\Desktop\\API\\Common\\Common.csproj",
+        "projectPath": "C:\\Users\\user\\Desktop\\git\\InsuranceAPI\\Common\\Common.csproj",
         "packagesPath": "C:\\Users\\user\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\user\\Desktop\\API\\Common\\obj\\",
+        "outputPath": "C:\\Users\\user\\Desktop\\git\\InsuranceAPI\\Common\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\user\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -63,14 +63,14 @@
         }
       }
     },
-    "C:\\Users\\user\\Desktop\\API\\Drivers\\MariaDB\\MariaDB.csproj": {
+    "C:\\Users\\user\\Desktop\\git\\InsuranceAPI\\Drivers\\MariaDB\\MariaDB.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\user\\Desktop\\API\\Drivers\\MariaDB\\MariaDB.csproj",
+        "projectUniqueName": "C:\\Users\\user\\Desktop\\git\\InsuranceAPI\\Drivers\\MariaDB\\MariaDB.csproj",
         "projectName": "MariaDB",
-        "projectPath": "C:\\Users\\user\\Desktop\\API\\Drivers\\MariaDB\\MariaDB.csproj",
+        "projectPath": "C:\\Users\\user\\Desktop\\git\\InsuranceAPI\\Drivers\\MariaDB\\MariaDB.csproj",
         "packagesPath": "C:\\Users\\user\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\user\\Desktop\\API\\Drivers\\MariaDB\\obj\\",
+        "outputPath": "C:\\Users\\user\\Desktop\\git\\InsuranceAPI\\Drivers\\MariaDB\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\user\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -85,8 +85,8 @@
           "net9.0": {
             "targetAlias": "net9.0",
             "projectReferences": {
-              "C:\\Users\\user\\Desktop\\API\\Common\\Common.csproj": {
-                "projectPath": "C:\\Users\\user\\Desktop\\API\\Common\\Common.csproj"
+              "C:\\Users\\user\\Desktop\\git\\InsuranceAPI\\Common\\Common.csproj": {
+                "projectPath": "C:\\Users\\user\\Desktop\\git\\InsuranceAPI\\Common\\Common.csproj"
               }
             }
           }

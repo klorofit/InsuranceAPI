@@ -4,33 +4,33 @@ using MyAPP.Singletons;
 
 [ApiController]
 [Route("[controller]")]
-public class AgrementsVehiclesContrl : Controller
+public class AgreementsVehiclesContrl : Controller
 {
     [HttpGet]
-    public List<AgrementsVehicles> Get()
+    public List<AgreementsVehicles> Get()
     {
-        List<AgrementsVehicles> result = DAO.Instance.AgrementsVehicles.Get();
+        List<AgreementsVehicles> result = DAO.Instance.AgreementsVehicles.Get();
         return result;
     }
     [HttpGet("{id}")]
-    public AgrementsVehicles? Get(int id)
+    public AgreementsVehicles? Get(int id)
     {
-        AgrementsVehicles? result = DAO.Instance.AgrementsVehicles.Get(id);
+        AgreementsVehicles? result = DAO.Instance.AgreementsVehicles.Get(id);
         return result;
     }
     [HttpDelete]
     public void Delete(int id)
     {
-        DAO.Instance.AgrementsVehicles.Delete(id);
+        DAO.Instance.AgreementsVehicles.Delete(id);
     }
     [HttpPut]
-    public void Put(int id, AgrementsVehicles item)
+    public void Put(int id, AgreementsVehicles item)
     {
-        DAO.Instance.AgrementsVehicles.Put(id, item);
+        DAO.Instance.AgreementsVehicles.Put(id, item);
     }
     [HttpPost]
-    public void Post(AgrementsVehicles item)
+    public void Post(AgreementsVehicles item)
     {
-        DAO.Instance.AgrementsVehicles.Post(item);
+        DAO.Instance.AgreementsVehicles.Post(item);
     } 
 }

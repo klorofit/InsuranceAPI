@@ -37,20 +37,20 @@ public class DDL
     @"use `myapp`;
     CREATE TABLE `Agents` (
       `AgentsID` int(11) NOT NULL AUTO_INCREMENT,
-      `First_name` varchar(100) NOT NULL,
-      `Last_name` varchar(100) NOT NULL,
+      `FirstName` varchar(100) NOT NULL,
+      `LastName` varchar(100) NOT NULL,
       `Phone` varchar(30) DEFAULT NULL,
       `Email` varchar(100) DEFAULT NULL,
-      `Hire_date` date DEFAULT NULL,
+      `HireDate` date DEFAULT NULL,
       PRIMARY KEY (`AgentsID`)
     ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf16 COLLATE=utf16_general_ci;",
 
     @"use `myapp`;
     CREATE TABLE `Clients` (
       `ClientsID` int(11) NOT NULL AUTO_INCREMENT,
-      `First_name` varchar(100) NOT NULL,
-      `Last_name` varchar(100) NOT NULL,
-      `Birth_date` date DEFAULT NULL,
+      `FirstName` varchar(100) NOT NULL,
+      `LastName` varchar(100) NOT NULL,
+      `BirthDate` date DEFAULT NULL,
       `Passport` varchar(50) DEFAULT NULL,
       `Phone` varchar(30) DEFAULT NULL,
       `Email` varchar(100) DEFAULT NULL,
@@ -58,14 +58,14 @@ public class DDL
     ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf16 COLLATE=utf16_general_ci;",
 
     @"use `myapp`;
-    CREATE TABLE `Insurance_types` (
-      `Insurance_typesID` int(11) NOT NULL AUTO_INCREMENT,
+    CREATE TABLE `InsuranceTypes` (
+      `InsuranceTypesID` int(11) NOT NULL AUTO_INCREMENT,
       `Name` varchar(100) NOT NULL,
-      PRIMARY KEY (`Insurance_typesID`)
+      PRIMARY KEY (`InsuranceTypesID`)
     ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf16 COLLATE=utf16_general_ci;",
 
     @"use `myapp`;
-    CREATE TABLE `Insurance` (
+    CREATE TABLE IF NOT EXISTS `Insurance` (
       `InsuranceID` int(11) NOT NULL AUTO_INCREMENT,
       `Name` varchar(100) NOT NULL,
       `Description` varchar(255) NOT NULL,
@@ -74,19 +74,20 @@ public class DDL
       `Insurance_typesID` int(11) NOT NULL,
       PRIMARY KEY (`InsuranceID`),
       KEY `insurance_insurance_types_FK` (`Insurance_typesID`),
-      CONSTRAINT `insurance_insurance_types_FK` FOREIGN KEY (`Insurance_typesID`) REFERENCES `Insurance_types` (`Insurance_typesID`)
-    ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf16 COLLATE=utf16_general_ci;",
+      CONSTRAINT `insurance_insurance_types_FK` FOREIGN KEY (`Insurance_typesID`) 
+      REFERENCES `InsuranceTypes` (`InsuranceTypesID`) -- Убрано подчеркивание в имени таблицы!
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;",
 
     @"use `myapp`;
     CREATE TABLE `Policies` (
       `PoliciesID` int(11) NOT NULL AUTO_INCREMENT,
-      `Policy_number` varchar(50) NOT NULL,
+      `PolicyNumber` varchar(50) NOT NULL,
       `ClientsID` int(11) DEFAULT NULL,
       `InsuranceID` int(11) DEFAULT NULL,
       `AgentsID` int(11) DEFAULT NULL,
-      `Start_date` date NOT NULL,
-      `End_date` date DEFAULT NULL,
-      `Sum_insured` decimal(14,2) DEFAULT NULL,
+      `StartDate` date NOT NULL,
+      `EndDate` date DEFAULT NULL,
+      `SumInsured` decimal(14,2) DEFAULT NULL,
       `Premium` decimal(12,2) DEFAULT NULL,
       `Status` varchar(50) DEFAULT 'active',
       PRIMARY KEY (`PoliciesID`),
@@ -118,16 +119,16 @@ public class DDL
       `Method` varchar(50) DEFAULT NULL,
       `Reference` varchar(100) DEFAULT NULL,
       PRIMARY KEY (`PaymentsID`),
-      KEY `policy_id` (`PoliciesID`),
-      CONSTRAINT `payments_ibfk_1` FOREIGN KEY (`PoliciesID`) REFERENCES `Policies` (`PoliciesID`)
+      KEY `Policies_id` (`PoliciesID`),
+      CONSTRAINT `Payments_ibfk_1` FOREIGN KEY (`PoliciesID`) REFERENCES `Policies` (`PoliciesID`)
     ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf16 COLLATE=utf16_general_ci;",
 
     @"use `myapp`;
-    CREATE TABLE `AgrementsVehicles` (
-      `AgrementsVehiclesID` int(11) NOT NULL,
+    CREATE TABLE `AgreementsVehicles` (
+      `AgreementsVehiclesID` int(11) NOT NULL,
       `VehiclesID` int(11) NOT NULL,
       `PoliciesID` int(11) NOT NULL,
-      PRIMARY KEY (`Agrement_vehiclesID`),
+      PRIMARY KEY (`AgreementsVehiclesID`),
       KEY `agrement_vehicles_policies_FK` (`PoliciesID`),
       KEY `agrement_vehicles_vehicles_FK` (`VehiclesID`),
       CONSTRAINT `agrement_vehicles_policies_FK` FOREIGN KEY (`PoliciesID`) REFERENCES `Policies` (`PoliciesID`),

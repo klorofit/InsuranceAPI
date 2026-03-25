@@ -19,7 +19,7 @@ public class SQLiteDatabase : IDatabase
             }
     }
     public IDBAgents Agents => new DBAgents();
-    public IDBAgrementsVehicles AgrementsVehicles => new DBAgrementsVehicles();
+    public IDBAgreementsVehicles AgreementsVehicles => new DBAgreementsVehicles();
     public IDBClients Clients => new DBClients();
     public IDBInsurance Insurance => new DBInsurance();
     public IDBInsuranceTypes InsuranceTypes => new DBInsuranceTypes();

@@ -43,3 +43,83 @@ C:\Users\user\Desktop\API\Drivers\SQLite\obj\Debug\net9.0\SQLite.dll
 C:\Users\user\Desktop\API\Drivers\SQLite\obj\Debug\net9.0\refint\SQLite.dll
 C:\Users\user\Desktop\API\Drivers\SQLite\obj\Debug\net9.0\SQLite.pdb
 C:\Users\user\Desktop\API\Drivers\SQLite\obj\Debug\net9.0\ref\SQLite.dll
+C:\Users\user\Desktop\Новая папка\InsuranceAPI\Drivers\SQLite\bin\Debug\net9.0\SQLite.deps.json
+C:\Users\user\Desktop\Новая папка\InsuranceAPI\Drivers\SQLite\bin\Debug\net9.0\SQLite.dll
+C:\Users\user\Desktop\Новая папка\InsuranceAPI\Drivers\SQLite\bin\Debug\net9.0\SQLite.pdb
+C:\Users\user\Desktop\Новая папка\InsuranceAPI\Drivers\SQLite\bin\Debug\net9.0\Common.dll
+C:\Users\user\Desktop\Новая папка\InsuranceAPI\Drivers\SQLite\bin\Debug\net9.0\Common.pdb
+C:\Users\user\Desktop\Новая папка\InsuranceAPI\Drivers\SQLite\obj\Debug\net9.0\SQLite.csproj.AssemblyReference.cache
+C:\Users\user\Desktop\Новая папка\InsuranceAPI\Drivers\SQLite\obj\Debug\net9.0\SQLite.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\user\Desktop\Новая папка\InsuranceAPI\Drivers\SQLite\obj\Debug\net9.0\SQLite.AssemblyInfoInputs.cache
+C:\Users\user\Desktop\Новая папка\InsuranceAPI\Drivers\SQLite\obj\Debug\net9.0\SQLite.AssemblyInfo.cs
+C:\Users\user\Desktop\Новая папка\InsuranceAPI\Drivers\SQLite\obj\Debug\net9.0\SQLite.csproj.CoreCompileInputs.cache
+C:\Users\user\Desktop\Новая папка\InsuranceAPI\Drivers\SQLite\obj\Debug\net9.0\SQLite.sourcelink.json
+C:\Users\user\Desktop\Новая папка\InsuranceAPI\Drivers\SQLite\obj\Debug\net9.0\SQLite.csproj.Up2Date
+C:\Users\user\Desktop\Новая папка\InsuranceAPI\Drivers\SQLite\obj\Debug\net9.0\SQLite.dll
+C:\Users\user\Desktop\Новая папка\InsuranceAPI\Drivers\SQLite\obj\Debug\net9.0\refint\SQLite.dll
+C:\Users\user\Desktop\Новая папка\InsuranceAPI\Drivers\SQLite\obj\Debug\net9.0\SQLite.pdb
+C:\Users\user\Desktop\Новая папка\InsuranceAPI\Drivers\SQLite\obj\Debug\net9.0\ref\SQLite.dll
+D:\TSV\InsuranceAPI\Drivers\SQLite\bin\Debug\net9.0\SQLite.deps.json
+D:\TSV\InsuranceAPI\Drivers\SQLite\bin\Debug\net9.0\SQLite.dll
+D:\TSV\InsuranceAPI\Drivers\SQLite\bin\Debug\net9.0\SQLite.pdb
+D:\TSV\InsuranceAPI\Drivers\SQLite\bin\Debug\net9.0\Common.dll
+D:\TSV\InsuranceAPI\Drivers\SQLite\bin\Debug\net9.0\Common.pdb
+D:\TSV\InsuranceAPI\Drivers\SQLite\obj\Debug\net9.0\SQLite.csproj.AssemblyReference.cache
+D:\TSV\InsuranceAPI\Drivers\SQLite\obj\Debug\net9.0\SQLite.GeneratedMSBuildEditorConfig.editorconfig
+D:\TSV\InsuranceAPI\Drivers\SQLite\obj\Debug\net9.0\SQLite.AssemblyInfoInputs.cache
+D:\TSV\InsuranceAPI\Drivers\SQLite\obj\Debug\net9.0\SQLite.AssemblyInfo.cs
+D:\TSV\InsuranceAPI\Drivers\SQLite\obj\Debug\net9.0\SQLite.csproj.CoreCompileInputs.cache
+D:\TSV\InsuranceAPI\Drivers\SQLite\obj\Debug\net9.0\SQLite.sourcelink.json
+D:\TSV\InsuranceAPI\Drivers\SQLite\obj\Debug\net9.0\SQLite.csproj.Up2Date
+D:\TSV\InsuranceAPI\Drivers\SQLite\obj\Debug\net9.0\SQLite.dll
+D:\TSV\InsuranceAPI\Drivers\SQLite\obj\Debug\net9.0\refint\SQLite.dll
+D:\TSV\InsuranceAPI\Drivers\SQLite\obj\Debug\net9.0\SQLite.pdb
+D:\TSV\InsuranceAPI\Drivers\SQLite\obj\Debug\net9.0\ref\SQLite.dll
+C:\Users\user\Desktop\InsuranceAPI\Drivers\SQLite\bin\Debug\net9.0\SQLite.deps.json
+C:\Users\user\Desktop\InsuranceAPI\Drivers\SQLite\bin\Debug\net9.0\SQLite.dll
+C:\Users\user\Desktop\InsuranceAPI\Drivers\SQLite\bin\Debug\net9.0\SQLite.pdb
+C:\Users\user\Desktop\InsuranceAPI\Drivers\SQLite\bin\Debug\net9.0\Common.dll
+C:\Users\user\Desktop\InsuranceAPI\Drivers\SQLite\bin\Debug\net9.0\Common.pdb
+C:\Users\user\Desktop\InsuranceAPI\Drivers\SQLite\obj\Debug\net9.0\SQLite.csproj.AssemblyReference.cache
+C:\Users\user\Desktop\InsuranceAPI\Drivers\SQLite\obj\Debug\net9.0\SQLite.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\user\Desktop\InsuranceAPI\Drivers\SQLite\obj\Debug\net9.0\SQLite.AssemblyInfoInputs.cache
+C:\Users\user\Desktop\InsuranceAPI\Drivers\SQLite\obj\Debug\net9.0\SQLite.AssemblyInfo.cs
+C:\Users\user\Desktop\InsuranceAPI\Drivers\SQLite\obj\Debug\net9.0\SQLite.csproj.CoreCompileInputs.cache
+C:\Users\user\Desktop\InsuranceAPI\Drivers\SQLite\obj\Debug\net9.0\SQLite.sourcelink.json
+C:\Users\user\Desktop\InsuranceAPI\Drivers\SQLite\obj\Debug\net9.0\SQLite.csproj.Up2Date
+C:\Users\user\Desktop\InsuranceAPI\Drivers\SQLite\obj\Debug\net9.0\SQLite.dll
+C:\Users\user\Desktop\InsuranceAPI\Drivers\SQLite\obj\Debug\net9.0\refint\SQLite.dll
+C:\Users\user\Desktop\InsuranceAPI\Drivers\SQLite\obj\Debug\net9.0\SQLite.pdb
+C:\Users\user\Desktop\InsuranceAPI\Drivers\SQLite\obj\Debug\net9.0\ref\SQLite.dll
+C:\Users\id301is\Desktop\Курсач\InsuranceAPI\Drivers\SQLite\obj\Debug\net9.0\SQLite.dll
+C:\Users\id301is\Desktop\Курсач\InsuranceAPI\Drivers\SQLite\obj\Debug\net9.0\refint\SQLite.dll
+C:\Users\id301is\Desktop\Курсач\InsuranceAPI\Drivers\SQLite\obj\Debug\net9.0\SQLite.pdb
+C:\Users\id301is\Desktop\Курсач\InsuranceAPI\Drivers\SQLite\bin\Debug\net9.0\SQLite.deps.json
+C:\Users\id301is\Desktop\Курсач\InsuranceAPI\Drivers\SQLite\bin\Debug\net9.0\SQLite.dll
+C:\Users\id301is\Desktop\Курсач\InsuranceAPI\Drivers\SQLite\bin\Debug\net9.0\SQLite.pdb
+C:\Users\id301is\Desktop\Курсач\InsuranceAPI\Drivers\SQLite\bin\Debug\net9.0\Common.dll
+C:\Users\id301is\Desktop\Курсач\InsuranceAPI\Drivers\SQLite\bin\Debug\net9.0\Common.pdb
+C:\Users\id301is\Desktop\Курсач\InsuranceAPI\Drivers\SQLite\obj\Debug\net9.0\SQLite.csproj.AssemblyReference.cache
+C:\Users\id301is\Desktop\Курсач\InsuranceAPI\Drivers\SQLite\obj\Debug\net9.0\SQLite.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\id301is\Desktop\Курсач\InsuranceAPI\Drivers\SQLite\obj\Debug\net9.0\SQLite.AssemblyInfoInputs.cache
+C:\Users\id301is\Desktop\Курсач\InsuranceAPI\Drivers\SQLite\obj\Debug\net9.0\SQLite.AssemblyInfo.cs
+C:\Users\id301is\Desktop\Курсач\InsuranceAPI\Drivers\SQLite\obj\Debug\net9.0\SQLite.csproj.CoreCompileInputs.cache
+C:\Users\id301is\Desktop\Курсач\InsuranceAPI\Drivers\SQLite\obj\Debug\net9.0\SQLite.sourcelink.json
+C:\Users\id301is\Desktop\Курсач\InsuranceAPI\Drivers\SQLite\obj\Debug\net9.0\SQLite.csproj.Up2Date
+C:\Users\id301is\Desktop\Курсач\InsuranceAPI\Drivers\SQLite\obj\Debug\net9.0\ref\SQLite.dll
+C:\Users\user\Desktop\git\InsuranceAPI\Drivers\SQLite\bin\Debug\net9.0\SQLite.deps.json
+C:\Users\user\Desktop\git\InsuranceAPI\Drivers\SQLite\bin\Debug\net9.0\SQLite.dll
+C:\Users\user\Desktop\git\InsuranceAPI\Drivers\SQLite\bin\Debug\net9.0\SQLite.pdb
+C:\Users\user\Desktop\git\InsuranceAPI\Drivers\SQLite\bin\Debug\net9.0\Common.dll
+C:\Users\user\Desktop\git\InsuranceAPI\Drivers\SQLite\bin\Debug\net9.0\Common.pdb
+C:\Users\user\Desktop\git\InsuranceAPI\Drivers\SQLite\obj\Debug\net9.0\SQLite.csproj.AssemblyReference.cache
+C:\Users\user\Desktop\git\InsuranceAPI\Drivers\SQLite\obj\Debug\net9.0\SQLite.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\user\Desktop\git\InsuranceAPI\Drivers\SQLite\obj\Debug\net9.0\SQLite.AssemblyInfoInputs.cache
+C:\Users\user\Desktop\git\InsuranceAPI\Drivers\SQLite\obj\Debug\net9.0\SQLite.AssemblyInfo.cs
+C:\Users\user\Desktop\git\InsuranceAPI\Drivers\SQLite\obj\Debug\net9.0\SQLite.csproj.CoreCompileInputs.cache
+C:\Users\user\Desktop\git\InsuranceAPI\Drivers\SQLite\obj\Debug\net9.0\SQLite.sourcelink.json
+C:\Users\user\Desktop\git\InsuranceAPI\Drivers\SQLite\obj\Debug\net9.0\SQLite.csproj.Up2Date
+C:\Users\user\Desktop\git\InsuranceAPI\Drivers\SQLite\obj\Debug\net9.0\SQLite.dll
+C:\Users\user\Desktop\git\InsuranceAPI\Drivers\SQLite\obj\Debug\net9.0\refint\SQLite.dll
+C:\Users\user\Desktop\git\InsuranceAPI\Drivers\SQLite\obj\Debug\net9.0\SQLite.pdb
+C:\Users\user\Desktop\git\InsuranceAPI\Drivers\SQLite\obj\Debug\net9.0\ref\SQLite.dll

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "qPmSe8lCDG8=",
+  "dgSpecHash": "qODyMiOgU88=",
   "success": true,
-  "projectFilePath": "C:\\Users\\user\\Desktop\\API\\Drivers\\MariaDB\\MariaDB.csproj",
+  "projectFilePath": "C:\\Users\\user\\Desktop\\git\\InsuranceAPI\\Drivers\\MariaDB\\MariaDB.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\user\\.nuget\\packages\\bouncycastle.cryptography\\2.6.2\\bouncycastle.cryptography.2.6.2.nupkg.sha512",
     "C:\\Users\\user\\.nuget\\packages\\google.protobuf\\3.32.0\\google.protobuf.3.32.0.nupkg.sha512",
