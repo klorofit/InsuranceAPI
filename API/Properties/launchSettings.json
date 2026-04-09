@@ -1,4 +1,15 @@
 ﻿{
+  "ConnectionStrings": {
+    "DefaultConnection": "Data Source=app.db"
+  },
+    "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft.AspNetCore": "Warning"
+    }
+  },
+
+  "AllowedHosts": "*",
   "$schema": "https://json.schemastore.org/launchsettings.json",
   "profiles": {
     "http": {

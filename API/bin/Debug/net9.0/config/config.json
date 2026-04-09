@@ -10,7 +10,7 @@
                 "UserName": "root",
                 "Password": ""
             }
-        },
+        }, 
         {
             "Name": "SQLite",
             "LIB": "SQLite.dll",

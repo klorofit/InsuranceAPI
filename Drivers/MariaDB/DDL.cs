@@ -134,5 +134,11 @@ public class DDL
       CONSTRAINT `agrement_vehicles_policies_FK` FOREIGN KEY (`PoliciesID`) REFERENCES `Policies` (`PoliciesID`),
       CONSTRAINT `agrement_vehicles_vehicles_FK` FOREIGN KEY (`VehiclesID`) REFERENCES `Vehicles` (`VehiclesID`)
     ) ENGINE=InnoDB DEFAULT CHARSET=utf16 COLLATE=utf16_general_ci;",
+
+    @"use `myapp`;
+    CREATE TABLE `AuditLog` (
+      `ID` INT(11) NOT NULL AUTO_INCREMENT,
+      
+    )ENGINE=InnoDB DEFAULT CHARSET=utf16 COLLATE=utf16_general_ci;",
     };
 }
