@@ -4,7 +4,6 @@ using MyAPP.Common;
 using MyAPP.Driver;
 using MyAPP.Driver.SQLiteDAO;
 
-
 namespace MyAPP.Driver.SQLiteDAO;
 
 class DBAgents : IDBAgents
@@ -24,64 +23,41 @@ class DBAgents : IDBAgents
     public void Delete(int id)
     {
         string query = "DELETE FROM Agents WHERE AgentsID = @id";
-        var parameters = new List<SqliteParameter>
-        {
-            new SqliteParameter("@id", id)
-        };
-        
-        DAO.Instance.ExecuteNonQuery(query, parameters);
+        DAO.Instance.ExecuteNonQuery(query, new List<SqliteParameter> { new SqliteParameter("@id", id) });
     }
     public Agents? Get(int id)
     {
         string query = "SELECT AgentsID, FirstName, LastName, Phone, Email, HireDate FROM Agents WHERE AgentsID = @id";
-        var parameters = new List<SqliteParameter>
-        {
-            new SqliteParameter("@id", id)
-        };
-        
-        return DAO.Instance.ReadSingle(query, FromReader, parameters);
+        return DAO.Instance.ReadSingle(query, FromReader, new List<SqliteParameter> { new SqliteParameter("@id", id) });
     }
     public List<Agents> Get()
     {
-        string query = "SELECT AgentsID, FirstName, LastName, Phone, Email, HireDate FROM Agents";
-        return DAO.Instance.ExecuteReader(query, FromReader);
+        return DAO.Instance.ExecuteReader("SELECT AgentsID, FirstName, LastName, Phone, Email, HireDate FROM Agents", FromReader);
     }
     public void Put(int id, Agents item)
     {
-        string query = @"UPDATE Agents
-                        SET FirstName = @FirstName, 
-                            LastName = @LastName, 
-                            Phone = @Phone, 
-                            Email = @Email,
-                            HireDate = @HireDate
-                        WHERE AgentsID = @AgentsID";
-        
-        var parameters = new List<SqliteParameter>
+        string query = @"UPDATE Agents SET FirstName=@FirstName, LastName=@LastName, Phone=@Phone, Email=@Email, HireDate=@HireDate WHERE AgentsID=@AgentsID";
+        DAO.Instance.ExecuteNonQuery(query, new List<SqliteParameter>
         {
-            new SqliteParameter("@AgentsID", item.AgentsID),
+            new SqliteParameter("@AgentsID", id),
             new SqliteParameter("@FirstName", item.FirstName),
             new SqliteParameter("@LastName", item.LastName),
-            new SqliteParameter("@Phone", item.Phone),
+            new SqliteParameter("@Phone", (object?)item.Phone ?? DBNull.Value),
             new SqliteParameter("@Email", item.Email),
             new SqliteParameter("@HireDate", item.HireDate)
-        };
-        
-        DAO.Instance.ExecuteNonQuery(query, parameters);
+        });
     }
     public void Post(Agents item)
     {
-        string query = "INSERT INTO Agents (AgentsID, FirstName, LastName, Phone, Email HireDate) VALUES (@AgentsID, @FirstName, @LastName, @Phone, @Email @HireDate)";
-        
-        var parameters = new List<SqliteParameter>
+        string query = @"INSERT INTO Agents (FirstName, LastName, Phone, Email, HireDate)
+                         VALUES (@FirstName, @LastName, @Phone, @Email, @HireDate)";
+        DAO.Instance.ExecuteNonQuery(query, new List<SqliteParameter>
         {
-            new SqliteParameter("@AgentsID", item.AgentsID),
             new SqliteParameter("@FirstName", item.FirstName),
             new SqliteParameter("@LastName", item.LastName),
-            new SqliteParameter("@Phone", item.Phone),
+            new SqliteParameter("@Phone", (object?)item.Phone ?? DBNull.Value),
             new SqliteParameter("@Email", item.Email),
             new SqliteParameter("@HireDate", item.HireDate)
-        };
-        
-        DAO.Instance.ExecuteNonQuery(query, parameters);
+        });
     }
 }

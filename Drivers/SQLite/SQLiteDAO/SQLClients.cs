@@ -23,68 +23,46 @@ class DBClients : IDBClients
     }
     public void Delete(int id)
     {
-        string query = "DELETE FROM Clients WHERE ClientsID = @id";
-        var parameters = new List<SqliteParameter>
-        {
-            new SqliteParameter("@id", id)
-        };
-        
-        DAO.Instance.ExecuteNonQuery(query, parameters);
+        DAO.Instance.ExecuteNonQuery("DELETE FROM Clients WHERE ClientsID = @id",
+            new List<SqliteParameter> { new SqliteParameter("@id", id) });
     }
     public Clients? Get(int id)
     {
-        string query = "SELECT ClientsID, FirstName, LastName, Phone, Email, Passport, BirthDate FROM Clients WHERE ClientsID = @id";
-        var parameters = new List<SqliteParameter>
-        {
-            new SqliteParameter("@id", id)
-        };
-        
-        return DAO.Instance.ReadSingle(query, FromReader, parameters);
+        return DAO.Instance.ReadSingle(
+            "SELECT ClientsID, FirstName, LastName, Phone, Email, Passport, BirthDate FROM Clients WHERE ClientsID = @id",
+            FromReader, new List<SqliteParameter> { new SqliteParameter("@id", id) });
     }
     public List<Clients> Get()
     {
-        string query = "SELECT ClientsID, FirstName, LastName, Phone, Email, Passport, BirthDate FROM Clients";
-        return DAO.Instance.ExecuteReader(query, FromReader);
+        return DAO.Instance.ExecuteReader(
+            "SELECT ClientsID, FirstName, LastName, Phone, Email, Passport, BirthDate FROM Clients", FromReader);
     }
     public void Put(int id, Clients item)
     {
-        string query = @"UPDATE Clients
-                        SET FirstName = @FirstName, 
-                            LastName = @LastName, 
-                            Phone = @Phone, 
-                            Email = @Email,
-                            Passport = @Passport,
-                            BirthDate = @BirthDate
-                        WHERE ClientsID = @ClientsID";
-        
-        var parameters = new List<SqliteParameter>
+        string query = @"UPDATE Clients SET FirstName=@FirstName, LastName=@LastName, Phone=@Phone, Email=@Email, Passport=@Passport, BirthDate=@BirthDate WHERE ClientsID=@ClientsID";
+        DAO.Instance.ExecuteNonQuery(query, new List<SqliteParameter>
         {
-            new SqliteParameter("@ClientsID", item.ClientsID),
+            new SqliteParameter("@ClientsID", id),
             new SqliteParameter("@FirstName", item.FirstName),
             new SqliteParameter("@LastName", item.LastName),
-            new SqliteParameter("@Phone", item.Phone),
+            new SqliteParameter("@Phone", (object?)item.Phone ?? DBNull.Value),
             new SqliteParameter("@Email", item.Email),
-            new SqliteParameter("@Passport", item.Passport),
+            new SqliteParameter("@Passport", (object?)item.Passport ?? DBNull.Value),
             new SqliteParameter("@BirthDate", item.BirthDate)
-        };
-        
-        DAO.Instance.ExecuteNonQuery(query, parameters);
+        });
     }
     public void Post(Clients item)
     {
-        string query = "INSERT INTO Clients (ClientsID, FirstName, LastName, Phone, Email, Passport, BirthDate) VALUES (@ClientsID, @FirstName, @Phone, @Email, @Passport, @BirthDate)";
-        
-        var parameters = new List<SqliteParameter>
+        string query = @"INSERT INTO Clients (FirstName, LastName, Phone, Email, Passport, BirthDate)
+                         VALUES (@FirstName, @LastName, @Phone, @Email, @Passport, @BirthDate)";
+        DAO.Instance.ExecuteNonQuery(query, new List<SqliteParameter>
         {
-            new SqliteParameter("@ClientsID", item.ClientsID),
             new SqliteParameter("@FirstName", item.FirstName),
             new SqliteParameter("@LastName", item.LastName),
-            new SqliteParameter("@Phone", item.Phone),
+            new SqliteParameter("@Phone", (object?)item.Phone ?? DBNull.Value),
             new SqliteParameter("@Email", item.Email),
-            new SqliteParameter("@Passport", item.Passport),
+            new SqliteParameter("@Passport", (object?)item.Passport ?? DBNull.Value),
             new SqliteParameter("@BirthDate", item.BirthDate)
-        };
-        
-        DAO.Instance.ExecuteNonQuery(query, parameters);
+        });
     }
 }

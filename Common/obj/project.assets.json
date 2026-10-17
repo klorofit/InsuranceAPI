@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\user\\Desktop\\git\\InsuranceAPI\\Common\\Common.csproj",
+      "projectUniqueName": "D:\\DenisReyn\\git\\InsuranceAPI\\Common\\Common.csproj",
       "projectName": "Common",
-      "projectPath": "C:\\Users\\user\\Desktop\\git\\InsuranceAPI\\Common\\Common.csproj",
+      "projectPath": "D:\\DenisReyn\\git\\InsuranceAPI\\Common\\Common.csproj",
       "packagesPath": "C:\\Users\\user\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\user\\Desktop\\git\\InsuranceAPI\\Common\\obj\\",
+      "outputPath": "D:\\DenisReyn\\git\\InsuranceAPI\\Common\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\user\\AppData\\Roaming\\NuGet\\NuGet.Config"

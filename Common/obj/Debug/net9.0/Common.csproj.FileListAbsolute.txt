@@ -91,3 +91,15 @@ C:\Users\user\Desktop\git\InsuranceAPI\Common\obj\Debug\net9.0\Common.dll
 C:\Users\user\Desktop\git\InsuranceAPI\Common\obj\Debug\net9.0\refint\Common.dll
 C:\Users\user\Desktop\git\InsuranceAPI\Common\obj\Debug\net9.0\Common.pdb
 C:\Users\user\Desktop\git\InsuranceAPI\Common\obj\Debug\net9.0\ref\Common.dll
+D:\DenisReyn\git\InsuranceAPI\Common\bin\Debug\net9.0\Common.deps.json
+D:\DenisReyn\git\InsuranceAPI\Common\bin\Debug\net9.0\Common.dll
+D:\DenisReyn\git\InsuranceAPI\Common\bin\Debug\net9.0\Common.pdb
+D:\DenisReyn\git\InsuranceAPI\Common\obj\Debug\net9.0\Common.GeneratedMSBuildEditorConfig.editorconfig
+D:\DenisReyn\git\InsuranceAPI\Common\obj\Debug\net9.0\Common.AssemblyInfoInputs.cache
+D:\DenisReyn\git\InsuranceAPI\Common\obj\Debug\net9.0\Common.AssemblyInfo.cs
+D:\DenisReyn\git\InsuranceAPI\Common\obj\Debug\net9.0\Common.csproj.CoreCompileInputs.cache
+D:\DenisReyn\git\InsuranceAPI\Common\obj\Debug\net9.0\Common.sourcelink.json
+D:\DenisReyn\git\InsuranceAPI\Common\obj\Debug\net9.0\Common.dll
+D:\DenisReyn\git\InsuranceAPI\Common\obj\Debug\net9.0\refint\Common.dll
+D:\DenisReyn\git\InsuranceAPI\Common\obj\Debug\net9.0\Common.pdb
+D:\DenisReyn\git\InsuranceAPI\Common\obj\Debug\net9.0\ref\Common.dll

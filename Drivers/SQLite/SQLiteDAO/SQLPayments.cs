@@ -22,65 +22,44 @@ class DBPayments : IDBPayments
     }
     public void Delete(int id)
     {
-        string query = "DELETE FROM Payments WHERE PaymentsID = @id";
-        var parameters = new List<SqliteParameter>
-        {
-            new SqliteParameter("@id", id)
-        };
-        
-        DAO.Instance.ExecuteNonQuery(query, parameters);
+        DAO.Instance.ExecuteNonQuery("DELETE FROM Payments WHERE PaymentsID = @id",
+            new List<SqliteParameter> { new SqliteParameter("@id", id) });
     }
     public Payments? Get(int id)
     {
-        string query = "SELECT PaymentsID, Method, Reference, Amount, PoliciesID, PaymentDate FROM Payments WHERE PaymentsID = @id";
-        var parameters = new List<SqliteParameter>
-        {
-            new SqliteParameter("@id", id)
-        };
-        
-        return DAO.Instance.ReadSingle(query, FromReader, parameters);
+        return DAO.Instance.ReadSingle(
+            "SELECT PaymentsID, Method, Reference, Amount, PoliciesID, PaymentDate FROM Payments WHERE PaymentsID = @id",
+            FromReader, new List<SqliteParameter> { new SqliteParameter("@id", id) });
     }
     public List<Payments> Get()
     {
-        string query = "SELECT PaymentsID, Method, Reference, Amount, PoliciesID, PaymentDate FROM Payments";
-        return DAO.Instance.ExecuteReader(query, FromReader);
+        return DAO.Instance.ExecuteReader(
+            "SELECT PaymentsID, Method, Reference, Amount, PoliciesID, PaymentDate FROM Payments", FromReader);
     }
     public void Put(int id, Payments item)
     {
-        string query = @"UPDATE Payments
-                        SET Method = @Method, 
-                            Reference = @Reference, 
-                            Amount = @Amount, 
-                            PoliciesID = @PoliciesID,
-                            PaymentDate = @PaymentDate
-                        WHERE PaymentsID = @PaymentsID";
-        
-        var parameters = new List<SqliteParameter>
+        string query = @"UPDATE Payments SET Method=@Method, Reference=@Reference, Amount=@Amount, PoliciesID=@PoliciesID, PaymentDate=@PaymentDate WHERE PaymentsID=@PaymentsID";
+        DAO.Instance.ExecuteNonQuery(query, new List<SqliteParameter>
         {
-            new SqliteParameter("@PaymentsID", item.PaymentsID),
+            new SqliteParameter("@PaymentsID", id),
             new SqliteParameter("@Method", item.Method),
             new SqliteParameter("@Reference", item.Reference),
             new SqliteParameter("@Amount", item.Amount),
             new SqliteParameter("@PoliciesID", item.PoliciesID),
             new SqliteParameter("@PaymentDate", item.PaymentDate)
-        };
-        
-        DAO.Instance.ExecuteNonQuery(query, parameters);
+        });
     }
     public void Post(Payments item)
     {
-        string query = "INSERT INTO Payments (PaymentsID, Method, Reference, Amount, PoliciesID, PaymentDate) VALUES (@PaymentsID, @Method, @Amount, @PoliciesID, @PaymentDate)";
-        
-        var parameters = new List<SqliteParameter>
+        string query = @"INSERT INTO Payments (Method, Reference, Amount, PoliciesID, PaymentDate)
+                         VALUES (@Method, @Reference, @Amount, @PoliciesID, @PaymentDate)";
+        DAO.Instance.ExecuteNonQuery(query, new List<SqliteParameter>
         {
-            new SqliteParameter("@PaymentsID", item.PaymentsID),
             new SqliteParameter("@Method", item.Method),
             new SqliteParameter("@Reference", item.Reference),
             new SqliteParameter("@Amount", item.Amount),
             new SqliteParameter("@PoliciesID", item.PoliciesID),
             new SqliteParameter("@PaymentDate", item.PaymentDate)
-        };
-        
-        DAO.Instance.ExecuteNonQuery(query, parameters);
+        });
     }
 }

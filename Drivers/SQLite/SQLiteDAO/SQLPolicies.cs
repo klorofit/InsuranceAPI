@@ -26,46 +26,28 @@ class DBPolicies : IDBPolicies
     }
     public void Delete(int id)
     {
-        string query = "DELETE FROM Policies WHERE PoliciesID = @id";
-        var parameters = new List<SqliteParameter>
-        {
-            new SqliteParameter("@id", id)
-        };
-        
-        DAO.Instance.ExecuteNonQuery(query, parameters);
+        DAO.Instance.ExecuteNonQuery("DELETE FROM Policies WHERE PoliciesID = @id",
+            new List<SqliteParameter> { new SqliteParameter("@id", id) });
     }
     public Policies? Get(int id)
     {
-        string query = "SELECT PoliciesID, PolicyNumber, ClientsID, InsuranceID, AgentsID, Startdate, EndDate, SumInsured, Premium, Status FROM Policies WHERE PoliciesID = @id";
-        var parameters = new List<SqliteParameter>
-        {
-            new SqliteParameter("@id", id)
-        };
-        
-        return DAO.Instance.ReadSingle(query, FromReader, parameters);
+        return DAO.Instance.ReadSingle(
+            "SELECT PoliciesID, PolicyNumber, ClientsID, InsuranceID, AgentsID, StartDate, EndDate, SumInsured, Premium, Status FROM Policies WHERE PoliciesID = @id",
+            FromReader, new List<SqliteParameter> { new SqliteParameter("@id", id) });
     }
     public List<Policies> Get()
     {
-        string query = "SELECT PoliciesID, PolicyNumber, ClientsID, InsuranceID, AgentsID, Startdate, EndDate, SumInsured, Premium, Status FROM Policies";
-        return DAO.Instance.ExecuteReader(query, FromReader);
+        return DAO.Instance.ExecuteReader(
+            "SELECT PoliciesID, PolicyNumber, ClientsID, InsuranceID, AgentsID, StartDate, EndDate, SumInsured, Premium, Status FROM Policies", FromReader);
     }
     public void Put(int id, Policies item)
     {
-        string query = @"UPDATE Policies
-                        SET PolicyNumber = @PolicyNumber, 
-                            ClientsID = @ClientsID, 
-                            InsuranceID = @InsuranceID, 
-                            AgentsID = @AgentsID,
-                            Startdate = @Startdate,
-                            EndDate = @EndDate,
-                            SumInsured = @SumInsured,
-                            Premium = @Premium,
-                            Status = @Status
-                        WHERE PoliciesID = @PoliciesID";
-        
-        var parameters = new List<SqliteParameter> 
+        string query = @"UPDATE Policies SET PolicyNumber=@PolicyNumber, ClientsID=@ClientsID, InsuranceID=@InsuranceID, AgentsID=@AgentsID,
+                            StartDate=@StartDate, EndDate=@EndDate, SumInsured=@SumInsured, Premium=@Premium, Status=@Status
+                        WHERE PoliciesID=@PoliciesID";
+        DAO.Instance.ExecuteNonQuery(query, new List<SqliteParameter>
         {
-            new SqliteParameter("@PoliciesID", item.PoliciesID),
+            new SqliteParameter("@PoliciesID", id),
             new SqliteParameter("@PolicyNumber", item.PolicyNumber),
             new SqliteParameter("@ClientsID", item.ClientsID),
             new SqliteParameter("@InsuranceID", item.InsuranceID),
@@ -75,17 +57,14 @@ class DBPolicies : IDBPolicies
             new SqliteParameter("@SumInsured", item.SumInsured),
             new SqliteParameter("@Premium", item.Premium),
             new SqliteParameter("@Status", item.Status)
-        };
-        
-        DAO.Instance.ExecuteNonQuery(query, parameters);
+        });
     }
     public void Post(Policies item)
     {
-        string query = "INSERT INTO Policies (PoliciesID, PolicyNumber, ClientsID, InsuranceID, AgentsID, Startdate, EndDate, SumInsured, Premium, Status) VALUES (@PoliciesID, @PolicyNumber, @InsuranceID, @AgentsID, @hire_date, @SumInsured, @Premium, @Status)";
-        
-        var parameters = new List<SqliteParameter>
+        string query = @"INSERT INTO Policies (PolicyNumber, ClientsID, InsuranceID, AgentsID, StartDate, EndDate, SumInsured, Premium, Status)
+                         VALUES (@PolicyNumber, @ClientsID, @InsuranceID, @AgentsID, @StartDate, @EndDate, @SumInsured, @Premium, @Status)";
+        DAO.Instance.ExecuteNonQuery(query, new List<SqliteParameter>
         {
-            new SqliteParameter("@PoliciesID", item.PoliciesID),
             new SqliteParameter("@PolicyNumber", item.PolicyNumber),
             new SqliteParameter("@ClientsID", item.ClientsID),
             new SqliteParameter("@InsuranceID", item.InsuranceID),
@@ -95,8 +74,6 @@ class DBPolicies : IDBPolicies
             new SqliteParameter("@SumInsured", item.SumInsured),
             new SqliteParameter("@Premium", item.Premium),
             new SqliteParameter("@Status", item.Status)
-        };
-        
-        DAO.Instance.ExecuteNonQuery(query, parameters);
+        });
     }
 }

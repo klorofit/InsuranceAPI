@@ -66,7 +66,7 @@ class MariaDBPolicies : IDBPolicies
         
         var parameters = new List<MySqlParameter> 
         {
-            new MySqlParameter("@PoliciesID", item.PoliciesID),
+            new MySqlParameter("@PoliciesID", id),
             new MySqlParameter("@PolicyNumber", item.PolicyNumber),
             new MySqlParameter("@ClientsID", item.ClientsID),
             new MySqlParameter("@InsuranceID", item.InsuranceID),
@@ -82,11 +82,10 @@ class MariaDBPolicies : IDBPolicies
     }
     public void Post(Policies item)
     {
-        string query = "INSERT INTO Policies (PoliciesID, PolicyNumber, ClientsID, InsuranceID, AgentsID, Startdate, EndDate, SumInsured, Premium, Status) VALUES (@PoliciesID, @PolicyNumber, @InsuranceID, @AgentsID, @hire_date, @SumInsured, @Premium, @Status)";
+        string query = "INSERT INTO Policies (PolicyNumber, ClientsID, InsuranceID, AgentsID, StartDate, EndDate, SumInsured, Premium, Status) VALUES (@PolicyNumber, @ClientsID, @InsuranceID, @AgentsID, @StartDate, @EndDate, @SumInsured, @Premium, @Status)";
         
         var parameters = new List<MySqlParameter>
         {
-            new MySqlParameter("@PoliciesID", item.PoliciesID),
             new MySqlParameter("@PolicyNumber", item.PolicyNumber),
             new MySqlParameter("@ClientsID", item.ClientsID),
             new MySqlParameter("@InsuranceID", item.InsuranceID),

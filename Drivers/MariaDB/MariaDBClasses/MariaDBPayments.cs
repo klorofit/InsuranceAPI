@@ -58,7 +58,7 @@ class MariaDBPayments : IDBPayments
         
         var parameters = new List<MySqlParameter>
         {
-            new MySqlParameter("@PaymentsID", item.PaymentsID),
+            new MySqlParameter("@PaymentsID", id),
             new MySqlParameter("@Method", item.Method),
             new MySqlParameter("@Reference", item.Reference),
             new MySqlParameter("@Amount", item.Amount),
@@ -70,11 +70,10 @@ class MariaDBPayments : IDBPayments
     }
     public void Post(Payments item)
     {
-        string query = "INSERT INTO Payments (PaymentsID, Method, Reference, Amount, PoliciesID, PaymentDate) VALUES (@PaymentsID, @Method, @Amount, @PoliciesID, @PaymentDate)";
+        string query = "INSERT INTO Payments (Method, Reference, Amount, PoliciesID, PaymentDate) VALUES (@Method, @Reference, @Amount, @PoliciesID, @PaymentDate)";
         
         var parameters = new List<MySqlParameter>
         {
-            new MySqlParameter("@PaymentsID", item.PaymentsID),
             new MySqlParameter("@Method", item.Method),
             new MySqlParameter("@Reference", item.Reference),
             new MySqlParameter("@Amount", item.Amount),

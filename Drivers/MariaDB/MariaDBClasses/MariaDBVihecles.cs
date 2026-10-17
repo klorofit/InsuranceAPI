@@ -56,7 +56,7 @@ class MariaDBVehicles : IDBVehicles
         
         var parameters = new List<MySqlParameter>
         {
-            new MySqlParameter("@VehiclesID", item.VehiclesID),
+            new MySqlParameter("@VehiclesID", id),
             new MySqlParameter("@Vin", item.Vin),
             new MySqlParameter("@Make", item.Make),
             new MySqlParameter("@Model", item.Model),
@@ -67,11 +67,10 @@ class MariaDBVehicles : IDBVehicles
     }
     public void Post(Vehicles item)
     {
-        string query = "INSERT INTO Vehicles (VehiclesID, Vin, Make, Model, Year) VALUES (@VehiclesID, @Vin, @Make, @Model, @Year)";
+        string query = "INSERT INTO Vehicles (Vin, Make, Model, Year) VALUES (@Vin, @Make, @Model, @Year)";
         
         var parameters = new List<MySqlParameter>
         {
-            new MySqlParameter("@VehiclesID", item.VehiclesID),
             new MySqlParameter("@Vin", item.Vin),
             new MySqlParameter("@Make", item.Make),
             new MySqlParameter("@Model", item.Model),

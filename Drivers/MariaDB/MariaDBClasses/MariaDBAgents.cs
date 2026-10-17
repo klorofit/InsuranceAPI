@@ -59,7 +59,7 @@ class MariaDBAgents : IDBAgents
         
         var parameters = new List<MySqlParameter>
         {
-            new MySqlParameter("@AgentsID", item.AgentsID),
+            new MySqlParameter("@AgentsID", id),
             new MySqlParameter("@FirstName", item.FirstName),
             new MySqlParameter("@LastName", item.LastName),
             new MySqlParameter("@Phone", item.Phone),
@@ -71,11 +71,10 @@ class MariaDBAgents : IDBAgents
     }
     public void Post(Agents item)
     {
-        string query = "INSERT INTO Agents (AgentsID, FirstName, LastName, Phone, Email HireDate) VALUES (@AgentsID, @FirstName, @LastName, @Phone, @Email @HireDate)";
+        string query = "INSERT INTO Agents (FirstName, LastName, Phone, Email, HireDate) VALUES (@FirstName, @LastName, @Phone, @Email, @HireDate)";
         
         var parameters = new List<MySqlParameter>
         {
-            new MySqlParameter("@AgentsID", item.AgentsID),
             new MySqlParameter("@FirstName", item.FirstName),
             new MySqlParameter("@LastName", item.LastName),
             new MySqlParameter("@Phone", item.Phone),

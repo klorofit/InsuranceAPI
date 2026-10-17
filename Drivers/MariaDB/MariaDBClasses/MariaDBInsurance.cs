@@ -58,7 +58,7 @@ class MariaDBInsurance : IDBInsurance
         
         var parameters = new List<MySqlParameter>
         {
-            new MySqlParameter("@InsuranceID", item.InsuranceID),
+            new MySqlParameter("@InsuranceID", id),
             new MySqlParameter("@Name", item.Name),
             new MySqlParameter("@Description", item.Description),
             new MySqlParameter("@Terms", item.Terms),
@@ -70,11 +70,10 @@ class MariaDBInsurance : IDBInsurance
     }
     public void Post(Insurance item)
     {
-        string query = "INSERT INTO Insurance (InsuranceID, Name, Description, Terms, Tariff InsuranceTypesID) VALUES (@InsuranceID, @Name, @Terms, @Tariff @InsuranceTypesID)";
+        string query = "INSERT INTO Insurance (Name, Description, Terms, Tariff, InsuranceTypesID) VALUES (@Name, @Description, @Terms, @Tariff, @InsuranceTypesID)";
         
         var parameters = new List<MySqlParameter>
         {
-            new MySqlParameter("@InsuranceID", item.InsuranceID),
             new MySqlParameter("@Name", item.Name),
             new MySqlParameter("@Description", item.Description),
             new MySqlParameter("@Terms", item.Terms),

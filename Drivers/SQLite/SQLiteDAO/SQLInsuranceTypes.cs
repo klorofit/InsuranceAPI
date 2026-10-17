@@ -18,53 +18,35 @@ class DBInsuranceTypes : IDBInsuranceTypes
     }
     public void Delete(int id)
     {
-        string query = "DELETE FROM InsuranceTypes WHERE InsuranceTypesID = @id";
-        var parameters = new List<SqliteParameter>
-        {
-            new SqliteParameter("@id", id)
-        };
-        
-        DAO.Instance.ExecuteNonQuery(query, parameters);
+        DAO.Instance.ExecuteNonQuery("DELETE FROM InsuranceTypes WHERE InsuranceTypesID = @id",
+            new List<SqliteParameter> { new SqliteParameter("@id", id) });
     }
     public InsuranceTypes? Get(int id)
     {
-        string query = "SELECT InsuranceTypesID, Name FROM InsuranceTypes WHERE InsuranceTypesID = @id";
-        var parameters = new List<SqliteParameter>
-        {
-            new SqliteParameter("@id", id)
-        };
-        
-        return DAO.Instance.ReadSingle(query, FromReader, parameters);
+        return DAO.Instance.ReadSingle(
+            "SELECT InsuranceTypesID, Name FROM InsuranceTypes WHERE InsuranceTypesID = @id",
+            FromReader, new List<SqliteParameter> { new SqliteParameter("@id", id) });
     }
     public List<InsuranceTypes> Get()
     {
-        string query = "SELECT InsuranceTypesID, Name FROM InsuranceTypes";
-        return DAO.Instance.ExecuteReader(query, FromReader);
+        return DAO.Instance.ExecuteReader("SELECT InsuranceTypesID, Name FROM InsuranceTypes", FromReader);
     }
     public void Put(int id, InsuranceTypes item)
     {
-        string query = @"UPDATE InsuranceTypes
-                        SET Name = @Name
-                        WHERE InsuranceTypesID = @InsuranceTypesID";
-        
-        var parameters = new List<SqliteParameter>
+        string query = @"UPDATE InsuranceTypes SET Name=@Name WHERE InsuranceTypesID=@InsuranceTypesID";
+        DAO.Instance.ExecuteNonQuery(query, new List<SqliteParameter>
         {
-            new SqliteParameter("@InsuranceTypesID", item.InsuranceTypesID),
+            new SqliteParameter("@InsuranceTypesID", id),
             new SqliteParameter("@Name", item.Name)
-        };
-        
-        DAO.Instance.ExecuteNonQuery(query, parameters);
+        });
     }
     public void Post(InsuranceTypes item)
     {
-        string query = "INSERT INTO InsuranceTypes (InsuranceTypesID, Name) VALUES (@InsuranceTypesID, @Name)";
-        
-        var parameters = new List<SqliteParameter>
+        // AUTOINCREMENT — не вставляем ID (иначе получается 0)
+        string query = @"INSERT INTO InsuranceTypes (Name) VALUES (@Name)";
+        DAO.Instance.ExecuteNonQuery(query, new List<SqliteParameter>
         {
-            new SqliteParameter("@InsuranceTypesID", item.InsuranceTypesID),
             new SqliteParameter("@Name", item.Name)
-        };
-        
-        DAO.Instance.ExecuteNonQuery(query, parameters);
+        });
     }
 }

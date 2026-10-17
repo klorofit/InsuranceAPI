@@ -48,11 +48,11 @@ class MariaDBAgreementsVehicles : IDBAgreementsVehicles
         string query = @"UPDATE AgreementsVehicles
                         SET PoliciesID = @PoliciesID, 
                             VehiclesID = @VehiclesID
-                        WHERE AgreementsVehiclesID = @AgreementsVehicles";
+                        WHERE AgreementsVehiclesID = @AgreementsVehiclesID";
         
         var parameters = new List<MySqlParameter>
         {
-            new MySqlParameter("@AgreementsVehiclesID", item.AgreementsVehiclesID),
+            new MySqlParameter("@AgreementsVehiclesID", id),
             new MySqlParameter("@PoliciesID", item.PoliciesID),
             new MySqlParameter("@VehiclesID", item.VehiclesID)
         };
@@ -61,11 +61,10 @@ class MariaDBAgreementsVehicles : IDBAgreementsVehicles
     }
     public void Post(AgreementsVehicles item)
     {
-        string query = "INSERT INTO AgreementsVehicles (AgreementsVehiclesID, PoliciesID, VehiclesID) VALUES (@AgreementsVehiclesID, @PoliciesID, @VehiclesID)";
+        string query = "INSERT INTO AgreementsVehicles (PoliciesID, VehiclesID) VALUES (@PoliciesID, @VehiclesID)";
         
         var parameters = new List<MySqlParameter>
         {
-            new MySqlParameter("@AgreementsVehiclesID", item.AgreementsVehiclesID),
             new MySqlParameter("@PoliciesID", item.PoliciesID),
             new MySqlParameter("@VehiclesID", item.VehiclesID)
         };

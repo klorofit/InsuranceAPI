@@ -21,62 +21,40 @@ class DBVehicles : IDBVehicles
     }
     public void Delete(int id)
     {
-        string query = "DELETE FROM Vehicles WHERE VehiclesID = @id";
-        var parameters = new List<SqliteParameter>
-        {
-            new SqliteParameter("@id", id)
-        };
-        
-        DAO.Instance.ExecuteNonQuery(query, parameters);
+        DAO.Instance.ExecuteNonQuery("DELETE FROM Vehicles WHERE VehiclesID = @id",
+            new List<SqliteParameter> { new SqliteParameter("@id", id) });
     }
     public Vehicles? Get(int id)
     {
-        string query = "SELECT VehiclesID, Vin, Make, Model, Year FROM Vehicles WHERE VehiclesID = @id";
-        var parameters = new List<SqliteParameter>
-        {
-            new SqliteParameter("@id", id)
-        };
-        
-        return DAO.Instance.ReadSingle(query, FromReader, parameters);
+        return DAO.Instance.ReadSingle(
+            "SELECT VehiclesID, Vin, Make, Model, Year FROM Vehicles WHERE VehiclesID = @id",
+            FromReader, new List<SqliteParameter> { new SqliteParameter("@id", id) });
     }
     public List<Vehicles> Get()
     {
-        string query = "SELECT VehiclesID, Vin, Make, Model, Year FROM Vehicles";
-        return DAO.Instance.ExecuteReader(query, FromReader);
+        return DAO.Instance.ExecuteReader("SELECT VehiclesID, Vin, Make, Model, Year FROM Vehicles", FromReader);
     }
     public void Put(int id, Vehicles item)
     {
-        string query = @"UPDATE Vehicles
-                        SET Vin = @Vin, 
-                            Make = @Make, 
-                            Model = @Model,
-                            Year = @Year
-                        WHERE VehiclesID = @VehiclesID";
-        
-        var parameters = new List<SqliteParameter>
+        string query = @"UPDATE Vehicles SET Vin=@Vin, Make=@Make, Model=@Model, Year=@Year WHERE VehiclesID=@VehiclesID";
+        DAO.Instance.ExecuteNonQuery(query, new List<SqliteParameter>
         {
-            new SqliteParameter("@VehiclesID", item.VehiclesID),
+            new SqliteParameter("@VehiclesID", id),
             new SqliteParameter("@Vin", item.Vin),
             new SqliteParameter("@Make", item.Make),
             new SqliteParameter("@Model", item.Model),
             new SqliteParameter("@Year", item.Year)
-        };
-        
-        DAO.Instance.ExecuteNonQuery(query, parameters);
+        });
     }
     public void Post(Vehicles item)
     {
-        string query = "INSERT INTO Vehicles (VehiclesID, Vin, Make, Model, Year) VALUES (@VehiclesID, @Vin, @Make, @Model, @Year)";
-        
-        var parameters = new List<SqliteParameter>
+        string query = @"INSERT INTO Vehicles (Vin, Make, Model, Year) VALUES (@Vin, @Make, @Model, @Year)";
+        DAO.Instance.ExecuteNonQuery(query, new List<SqliteParameter>
         {
-            new SqliteParameter("@VehiclesID", item.VehiclesID),
             new SqliteParameter("@Vin", item.Vin),
             new SqliteParameter("@Make", item.Make),
             new SqliteParameter("@Model", item.Model),
             new SqliteParameter("@Year", item.Year)
-        };
-        
-        DAO.Instance.ExecuteNonQuery(query, parameters);
+        });
     }
 }

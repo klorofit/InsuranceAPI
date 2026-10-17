@@ -5486,11 +5486,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\user\\Desktop\\git\\InsuranceAPI\\API\\API.csproj",
+      "projectUniqueName": "D:\\DenisReyn\\git\\InsuranceAPI\\API\\API.csproj",
       "projectName": "API",
-      "projectPath": "C:\\Users\\user\\Desktop\\git\\InsuranceAPI\\API\\API.csproj",
+      "projectPath": "D:\\DenisReyn\\git\\InsuranceAPI\\API\\API.csproj",
       "packagesPath": "C:\\Users\\user\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\user\\Desktop\\git\\InsuranceAPI\\API\\obj\\",
+      "outputPath": "D:\\DenisReyn\\git\\InsuranceAPI\\API\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\user\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -5505,14 +5505,14 @@
         "net9.0": {
           "targetAlias": "net9.0",
           "projectReferences": {
-            "C:\\Users\\user\\Desktop\\git\\InsuranceAPI\\Common\\Common.csproj": {
-              "projectPath": "C:\\Users\\user\\Desktop\\git\\InsuranceAPI\\Common\\Common.csproj"
+            "D:\\DenisReyn\\git\\InsuranceAPI\\Common\\Common.csproj": {
+              "projectPath": "D:\\DenisReyn\\git\\InsuranceAPI\\Common\\Common.csproj"
             },
-            "C:\\Users\\user\\Desktop\\git\\InsuranceAPI\\Drivers\\MariaDB\\MariaDB.csproj": {
-              "projectPath": "C:\\Users\\user\\Desktop\\git\\InsuranceAPI\\Drivers\\MariaDB\\MariaDB.csproj"
+            "D:\\DenisReyn\\git\\InsuranceAPI\\Drivers\\MariaDB\\MariaDB.csproj": {
+              "projectPath": "D:\\DenisReyn\\git\\InsuranceAPI\\Drivers\\MariaDB\\MariaDB.csproj"
             },
-            "C:\\Users\\user\\Desktop\\git\\InsuranceAPI\\Drivers\\SQLite\\SQLite.csproj": {
-              "projectPath": "C:\\Users\\user\\Desktop\\git\\InsuranceAPI\\Drivers\\SQLite\\SQLite.csproj"
+            "D:\\DenisReyn\\git\\InsuranceAPI\\Drivers\\SQLite\\SQLite.csproj": {
+              "projectPath": "D:\\DenisReyn\\git\\InsuranceAPI\\Drivers\\SQLite\\SQLite.csproj"
             }
           }
         }
