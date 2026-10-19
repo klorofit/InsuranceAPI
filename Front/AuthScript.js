@@ -1,8 +1,8 @@
 var accessToken = "";
 var refreshToken = "";
-var currentRole = ""; // "admin" | "manager" | ...
+var currentRole = ""; 
 
-// COOKIES
+
 function setCookie() {
   var exp = new Date(Date.now() + 3600000).toUTCString();
   document.cookie = "accessToken=" + encodeURIComponent(accessToken) + "; expires=" + exp + "; path=/";
@@ -25,7 +25,7 @@ function clearCookies() {
   document.cookie = "userRole=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
 }
 
-/** Разобрать JWT и вытащить роль (claim role / ClaimTypes.Role) */
+
 function parseJwtPayload(token) {
   try {
     var parts = token.split(".");
@@ -49,7 +49,7 @@ function parseJwtPayload(token) {
 function extractRoleFromToken(token) {
   var payload = parseJwtPayload(token);
   if (!payload) return "";
-  // ASP.NET ClaimTypes.Role
+
   var role =
     payload["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"] ||
     payload.role ||
@@ -75,7 +75,7 @@ function isManager() {
   return currentRole === "manager";
 }
 
-/** Можно ли вообще открыть раздел (GET / таблица) */
+
 function canViewEntity(controller) {
   if (isAdmin()) return true;
   if (isManager()) {
@@ -83,16 +83,16 @@ function canViewEntity(controller) {
     if (controller === "InsuranceTypesContrl") return false;
     return true;
   }
-  // неизвестная роль — только безопасное чтение без скрытых разделов
+
   if (controller === "AgentsContrl" || controller === "InsuranceTypesContrl") return false;
   return true;
 }
 
-/** Можно ли POST / PUT / DELETE в разделе */
+
 function canModifyEntity(controller) {
   if (isAdmin()) return true;
   if (isManager()) {
-    // страховки — только просмотр
+
     if (controller === "InsuranceContrl") return false;
     if (controller === "AgentsContrl") return false;
     if (controller === "InsuranceTypesContrl") return false;
@@ -112,7 +112,7 @@ function applyRoleToNav() {
   });
 }
 
-// UI
+
 function showApp() {
   document.getElementById("loginPage").style.display = "none";
   document.getElementById("appPage").style.display = "flex";
@@ -124,7 +124,7 @@ function showLogin() {
   document.getElementById("loginPage").style.display = "flex";
 }
 
-// LOGIN
+
 document.getElementById("loginBtn").onclick = doLogin;
 document.getElementById("password").onkeydown = function (e) {
   if (e.key === "Enter") doLogin();
@@ -168,7 +168,7 @@ async function doLogin() {
   }
 }
 
-// LOGOUT
+
 document.getElementById("logoutBtn").onclick = function () {
   accessToken = "";
   refreshToken = "";
@@ -181,7 +181,7 @@ document.getElementById("logoutBtn").onclick = function () {
   document.getElementById("contentArea").innerHTML =
     '<div class="empty-state"><span>⬡</span><p>Выберите раздел</p></div>';
 
-  // вернуть видимость всех кнопок навигации до следующего входа
+
   document.querySelectorAll(".nav-btn").forEach(function (btn) {
     btn.style.display = "";
   });
@@ -189,7 +189,7 @@ document.getElementById("logoutBtn").onclick = function () {
   showLogin();
 };
 
-// AUTO LOGIN
+
 var savedAccess = getCookieVal("accessToken");
 var savedRefresh = getCookieVal("refreshToken");
 var savedRole = getCookieVal("userRole");

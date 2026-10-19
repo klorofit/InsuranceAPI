@@ -1,12 +1,6 @@
 /* InsureX — CRUD frontend
- * Под реальное API:
- *   GET    /{Controller}
- *   GET    /{Controller}/{id}
- *   POST   /{Controller}           body: JSON entity
- *   PUT    /{Controller}?id={id}   body: JSON entity  (id из query!)
- *   DELETE /{Controller}?id={id}   (id из query!)
- *   POST   /api/auth/login         { email, password }
- *   POST   /api/auth/refresh       body: "refreshTokenString"  (сырая JSON-строка)
+ * FK-поля: в UI — понятные подписи (VIN, ФИО, номер полиса),
+ * в API/БД — по-прежнему числовые ID.
  */
 
 var API_BASE = "http://localhost:5000";
@@ -17,7 +11,13 @@ var editItemId = null;
 var currentKeys = [];
 var currentData = [];
 
-/* Схемы по моделям Common/DB — имена свойств PascalCase как в C# */
+/* Кэш справочников: controller → массив записей */
+var refCache = {};
+
+/* ---------- Схемы ----------
+ * type: text|number|date|email|tel|ref
+ * ref: { controller, idKey, label(item) → строка для select/таблицы }
+ */
 var SCHEMAS = {
   AgentsContrl: {
     label: "Агенты",
@@ -34,8 +34,38 @@ var SCHEMAS = {
     label: "Договоры ТС",
     idKey: "AgreementsVehiclesID",
     fields: [
-      { name: "PoliciesID", label: "ID полиса", type: "number" },
-      { name: "VehiclesID", label: "ID транспорта", type: "number" }
+      {
+        name: "PoliciesID",
+        label: "Полис",
+        type: "ref",
+        ref: {
+          controller: "PoliciesContrl",
+          idKey: "PoliciesID",
+          label: function (p) {
+            return (
+              (pick(p, "PolicyNumber") || "Полис") +
+              " · id " +
+              pick(p, "PoliciesID")
+            );
+          }
+        }
+      },
+      {
+        name: "VehiclesID",
+        label: "Транспорт (VIN)",
+        type: "ref",
+        ref: {
+          controller: "VehiclesContrl",
+          idKey: "VehiclesID",
+          label: function (v) {
+            var vin = pick(v, "Vin") || "—";
+            var make = pick(v, "Make") || "";
+            var model = pick(v, "Model") || "";
+            var year = pick(v, "Year") || "";
+            return vin + " — " + make + " " + model + " " + year;
+          }
+        }
+      }
     ]
   },
   ClientsContrl: {
@@ -58,21 +88,52 @@ var SCHEMAS = {
       { name: "Description", label: "Описание", type: "text" },
       { name: "Terms", label: "Условия", type: "text" },
       { name: "Tariff", label: "Тариф", type: "number" },
-      { name: "InsuranceTypesID", label: "ID типа страховки", type: "number" }
+      {
+        name: "InsuranceTypesID",
+        label: "Тип страховки",
+        type: "ref",
+        ref: {
+          controller: "InsuranceTypesContrl",
+          idKey: "InsuranceTypesID",
+          label: function (t) {
+            return pick(t, "Name") || "Тип #" + pick(t, "InsuranceTypesID");
+          }
+        }
+      }
     ]
   },
   InsuranceTypesContrl: {
     label: "Типы страховок",
     idKey: "InsuranceTypesID",
     fields: [
-      { name: "Name", label: "Название", type: "text" }
+      {
+        name: "Name",
+        label: "Название",
+        type: "text",
+        placeholder: "Например: Личное Страхование или ОСАГО"
+      }
     ]
   },
   PaymentsContrl: {
     label: "Платежи",
     idKey: "PaymentsID",
     fields: [
-      { name: "PoliciesID", label: "ID полиса", type: "number" },
+      {
+        name: "PoliciesID",
+        label: "Полис",
+        type: "ref",
+        ref: {
+          controller: "PoliciesContrl",
+          idKey: "PoliciesID",
+          label: function (p) {
+            return (
+              (pick(p, "PolicyNumber") || "Полис") +
+              " · id " +
+              pick(p, "PoliciesID")
+            );
+          }
+        }
+      },
       { name: "PaymentDate", label: "Дата платежа", type: "date" },
       { name: "Amount", label: "Сумма", type: "number" },
       { name: "Method", label: "Способ оплаты", type: "text" },
@@ -84,9 +145,54 @@ var SCHEMAS = {
     idKey: "PoliciesID",
     fields: [
       { name: "PolicyNumber", label: "Номер полиса", type: "text" },
-      { name: "ClientsID", label: "ID клиента", type: "number" },
-      { name: "InsuranceID", label: "ID страховки", type: "number" },
-      { name: "AgentsID", label: "ID агента", type: "number" },
+      {
+        name: "ClientsID",
+        label: "Клиент",
+        type: "ref",
+        ref: {
+          controller: "ClientsContrl",
+          idKey: "ClientsID",
+          label: function (c) {
+            return (
+              (pick(c, "LastName") || "") +
+              " " +
+              (pick(c, "FirstName") || "") +
+              " · " +
+              (pick(c, "Email") || "")
+            ).trim();
+          }
+        }
+      },
+      {
+        name: "InsuranceID",
+        label: "Страховка",
+        type: "ref",
+        ref: {
+          controller: "InsuranceContrl",
+          idKey: "InsuranceID",
+          label: function (i) {
+            return pick(i, "Name") || "Страховка #" + pick(i, "InsuranceID");
+          }
+        }
+      },
+      {
+        name: "AgentsID",
+        label: "Агент",
+        type: "ref",
+        ref: {
+          controller: "AgentsContrl",
+          idKey: "AgentsID",
+          label: function (a) {
+            return (
+              (pick(a, "LastName") || "") +
+              " " +
+              (pick(a, "FirstName") || "") +
+              " · " +
+              (pick(a, "Email") || "")
+            ).trim();
+          }
+        }
+      },
       { name: "StartDate", label: "Дата начала", type: "date" },
       { name: "EndDate", label: "Дата окончания", type: "date" },
       { name: "SumInsured", label: "Страховая сумма", type: "number" },
@@ -111,12 +217,20 @@ Object.keys(SCHEMAS).forEach(function (k) {
   LABELS[k] = SCHEMAS[k].label;
 });
 
+/** Поле из объекта с учётом camelCase ответа API */
+function pick(item, name) {
+  if (!item || name == null) return null;
+  if (item[name] != null) return item[name];
+  var camel = name.charAt(0).toLowerCase() + name.slice(1);
+  if (item[camel] != null) return item[camel];
+  return null;
+}
+
 function parseValue(raw, type) {
   if (raw === "" || raw == null) return null;
   var s = String(raw).trim();
   if (s === "") return null;
-
-  if (type === "number") {
+  if (type === "number" || type === "ref") {
     var n = Number(s.replace(",", "."));
     return isNaN(n) ? null : n;
   }
@@ -132,14 +246,16 @@ function parseValue(raw, type) {
   return s;
 }
 
-function collectBodyFromForm(schema, includeId) {
+function collectBodyFromForm(schema) {
   var body = {};
-  document.querySelectorAll("#modalFields input[data-key]").forEach(function (inp) {
-    var key = inp.dataset.key;
-    if (!includeId && key === schema.idKey) return;
-    var fieldDef = schema.fields.find(function (f) { return f.name === key; });
-    var type = fieldDef ? fieldDef.type : (inp.type === "number" ? "number" : "text");
-    body[key] = parseValue(inp.value, type);
+  document.querySelectorAll("#modalFields [data-key]").forEach(function (el) {
+    var key = el.dataset.key;
+    if (key === schema.idKey) return;
+    var fieldDef = schema.fields.find(function (f) {
+      return f.name === key;
+    });
+    var type = fieldDef ? fieldDef.type : "text";
+    body[key] = parseValue(el.value, type);
   });
   return body;
 }
@@ -157,23 +273,16 @@ function toDateInputValue(val) {
   return y + "-" + mo + "-" + day;
 }
 
-/* ===================== API =====================
- * body: object → JSON.stringify
- * для refresh передаём уже готовую JSON-строку через rawBody=true
- */
+/* ===================== API ===================== */
 async function api(path, method, body, rawBody) {
   method = method || "GET";
   var token = getCookieVal("accessToken") || accessToken;
 
   var opts = {
     method: method,
-    headers: {
-      Accept: "application/json"
-    }
+    headers: { Accept: "application/json" }
   };
-  if (token) {
-    opts.headers["Authorization"] = "Bearer " + token;
-  }
+  if (token) opts.headers["Authorization"] = "Bearer " + token;
 
   if (body !== undefined && body !== null && method !== "GET") {
     opts.headers["Content-Type"] = "application/json";
@@ -190,8 +299,6 @@ async function api(path, method, body, rawBody) {
         return null;
       }
       try {
-        // AuthController.Refresh([FromBody] string refreshToken)
-        // → тело = JSON-строка: "the-token-value"
         var ref = await fetch(API_BASE + "/api/auth/refresh", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -239,6 +346,58 @@ async function api(path, method, body, rawBody) {
   }
 }
 
+/* ===================== Справочники (FK) ===================== */
+async function loadRefList(controller, force) {
+  if (!force && refCache[controller]) return refCache[controller];
+  var data = await api(controller, "GET");
+  if (data === null) {
+    refCache[controller] = [];
+    return [];
+  }
+  var list = Array.isArray(data) ? data : [];
+  refCache[controller] = list;
+  return list;
+}
+
+async function ensureRefsForSchema(schema) {
+  if (!schema) return;
+  var tasks = [];
+  schema.fields.forEach(function (f) {
+    if (f.type === "ref" && f.ref) {
+      tasks.push(loadRefList(f.ref.controller));
+    }
+  });
+  await Promise.all(tasks);
+}
+
+function resolveRefLabel(fieldDef, idVal) {
+  if (idVal == null || idVal === "") return "";
+  if (!fieldDef || fieldDef.type !== "ref" || !fieldDef.ref) return String(idVal);
+  var list = refCache[fieldDef.ref.controller] || [];
+  var idKey = fieldDef.ref.idKey;
+  for (var i = 0; i < list.length; i++) {
+    var row = list[i];
+    var rid = pick(row, idKey);
+    if (String(rid) === String(idVal)) {
+      try {
+        return fieldDef.ref.label(row);
+      } catch (e) {
+        return String(idVal);
+      }
+    }
+  }
+  return "#" + idVal;
+}
+
+function columnTitle(key, schema) {
+  if (!schema) return key;
+  if (key === schema.idKey) return "№";
+  var f = schema.fields.find(function (x) {
+    return x.name === key;
+  });
+  return f ? f.label : key;
+}
+
 /* ===================== NAV ===================== */
 document.querySelectorAll(".nav-btn").forEach(function (btn) {
   btn.onclick = function () {
@@ -257,6 +416,10 @@ async function loadEntity(controller) {
   document.querySelectorAll(".nav-btn").forEach(function (b) {
     b.classList.toggle("active", b.dataset.entity === controller);
   });
+
+  var schema = SCHEMAS[controller];
+  // заранее подтянуть справочники для красивых подписей в таблице
+  await ensureRefsForSchema(schema);
 
   var data = await api(controller, "GET");
   if (data === null) return;
@@ -277,10 +440,13 @@ function renderTable(data) {
   var schema = SCHEMAS[currentController];
 
   if (data.length > 0) {
-    // API может отдать camelCase — нормализуем ключи для отображения
     currentKeys = Object.keys(data[0]);
   } else if (schema) {
-    currentKeys = [schema.idKey].concat(schema.fields.map(function (f) { return f.name; }));
+    currentKeys = [schema.idKey].concat(
+      schema.fields.map(function (f) {
+        return f.name;
+      })
+    );
   }
 
   var hdr = document.createElement("div");
@@ -290,7 +456,8 @@ function renderTable(data) {
   title.className = "section-title";
   title.textContent = LABELS[currentController] || currentController;
 
-  var canEdit = typeof canModifyEntity !== "function" || canModifyEntity(currentController);
+  var canEdit =
+    typeof canModifyEntity !== "function" || canModifyEntity(currentController);
 
   if (canEdit) {
     var addBtn = document.createElement("button");
@@ -319,11 +486,10 @@ function renderTable(data) {
   }
 
   var idKey = getIdKey(currentController);
-  // поддержка camelCase id из JSON (agentsID и т.п.)
+
   function resolveId(item) {
-    if (item[idKey] != null) return item[idKey];
-    var camel = idKey.charAt(0).toLowerCase() + idKey.slice(1);
-    if (item[camel] != null) return item[camel];
+    var v = pick(item, idKey);
+    if (v != null) return v;
     return item[currentKeys[0]];
   }
 
@@ -332,7 +498,7 @@ function renderTable(data) {
 
   var html = "<table><thead><tr><th>Действия</th>";
   currentKeys.forEach(function (k) {
-    html += "<th>" + escapeHtml(k) + "</th>";
+    html += "<th>" + escapeHtml(columnTitle(k, schema)) + "</th>";
   });
   html += "</tr></thead><tbody>";
 
@@ -340,7 +506,8 @@ function renderTable(data) {
     var idVal = resolveId(item);
     html += "<tr><td class='td-actions'>";
     if (canEdit) {
-      html += '<button class="btn-edit" data-index="' + index + '">Изменить</button> ';
+      html +=
+        '<button class="btn-edit" data-index="' + index + '">Изменить</button> ';
       html +=
         '<button class="btn-delete" data-id="' +
         escapeAttr(String(idVal)) +
@@ -350,7 +517,19 @@ function renderTable(data) {
     }
     html += "</td>";
     currentKeys.forEach(function (k) {
-      html += "<td>" + escapeHtml(formatCell(item[k])) + "</td>";
+      var val = pick(item, k);
+      var fieldDef =
+        schema &&
+        schema.fields.find(function (f) {
+          return f.name === k;
+        });
+      var display;
+      if (fieldDef && fieldDef.type === "ref") {
+        display = resolveRefLabel(fieldDef, val);
+      } else {
+        display = formatCell(val);
+      }
+      html += "<td>" + escapeHtml(display) + "</td>";
     });
     html += "</tr>";
   });
@@ -394,23 +573,29 @@ function escapeAttr(s) {
   return String(s).replace(/"/g, "&quot;").replace(/'/g, "&#39;");
 }
 
-/* ===================== DELETE =====================
- * API: [HttpDelete] public void Delete(int id)  →  ?id=
- */
+
 async function doDelete(id) {
-  if (typeof canModifyEntity === "function" && !canModifyEntity(currentController)) {
+  if (
+    typeof canModifyEntity === "function" &&
+    !canModifyEntity(currentController)
+  ) {
     alert("Нет прав на удаление");
     return;
   }
   if (!confirm("Удалить запись #" + id + "?")) return;
-  var result = await api(currentController + "?id=" + encodeURIComponent(id), "DELETE");
+  var result = await api(
+    currentController + "?id=" + encodeURIComponent(id),
+    "DELETE"
+  );
   if (result !== null) {
+
+    delete refCache[currentController];
     loadEntity(currentController);
   }
 }
 
-/* ===================== MODAL ===================== */
-function makeInputField(name, label, type, value) {
+
+function makeInputField(name, label, type, value, placeholder) {
   var div = document.createElement("div");
   div.className = "field";
 
@@ -419,7 +604,7 @@ function makeInputField(name, label, type, value) {
 
   var inp = document.createElement("input");
   inp.dataset.key = name;
-  inp.placeholder = label || name;
+  inp.placeholder = placeholder || label || name;
 
   if (type === "number") {
     inp.type = "number";
@@ -444,20 +629,60 @@ function makeInputField(name, label, type, value) {
   return div;
 }
 
-/** Значение поля из item с учётом camelCase ответа API */
-function pickField(item, name) {
-  if (item[name] != null) return item[name];
-  var camel = name.charAt(0).toLowerCase() + name.slice(1);
-  if (item[camel] != null) return item[camel];
-  return null;
+function makeRefSelect(fieldDef, selectedId) {
+  var div = document.createElement("div");
+  div.className = "field";
+
+  var lbl = document.createElement("label");
+  lbl.textContent = fieldDef.label || fieldDef.name;
+
+  var sel = document.createElement("select");
+  sel.dataset.key = fieldDef.name;
+  sel.style.cssText =
+    "width:100%;padding:10px 12px;border-radius:8px;border:1px solid var(--border);background:var(--surface2);color:var(--text);font-family:var(--font-body);font-size:14px;";
+
+  var opt0 = document.createElement("option");
+  opt0.value = "";
+  opt0.textContent = "— выберите —";
+  sel.appendChild(opt0);
+
+  var list = refCache[fieldDef.ref.controller] || [];
+  var idKey = fieldDef.ref.idKey;
+  list.forEach(function (row) {
+    var id = pick(row, idKey);
+    if (id == null) return;
+    var opt = document.createElement("option");
+    opt.value = String(id);
+    try {
+      opt.textContent = fieldDef.ref.label(row);
+    } catch (e) {
+      opt.textContent = String(id);
+    }
+    if (String(id) === String(selectedId)) opt.selected = true;
+    sel.appendChild(opt);
+  });
+
+  if (list.length === 0) {
+    var empty = document.createElement("option");
+    empty.disabled = true;
+    empty.textContent = "Нет записей в справочнике — сначала заполните раздел";
+    sel.appendChild(empty);
+  }
+
+  div.appendChild(lbl);
+  div.appendChild(sel);
+  return div;
 }
 
-function openAddModal() {
+async function openAddModal() {
   if (!currentController) {
     alert("Сначала выберите раздел");
     return;
   }
-  if (typeof canModifyEntity === "function" && !canModifyEntity(currentController)) {
+  if (
+    typeof canModifyEntity === "function" &&
+    !canModifyEntity(currentController)
+  ) {
     alert("Нет прав на добавление в этот раздел");
     return;
   }
@@ -471,8 +696,15 @@ function openAddModal() {
 
   var schema = SCHEMAS[currentController];
   if (schema) {
+    await ensureRefsForSchema(schema);
     schema.fields.forEach(function (f) {
-      fields.appendChild(makeInputField(f.name, f.label, f.type, ""));
+      if (f.type === "ref") {
+        fields.appendChild(makeRefSelect(f, null));
+      } else {
+        fields.appendChild(
+          makeInputField(f.name, f.label, f.type, "", f.placeholder)
+        );
+      }
     });
   } else if (currentKeys && currentKeys.length > 0) {
     currentKeys.slice(1).forEach(function (k) {
@@ -486,8 +718,11 @@ function openAddModal() {
   document.getElementById("modal").style.display = "flex";
 }
 
-function openEditModalByIndex(index) {
-  if (typeof canModifyEntity === "function" && !canModifyEntity(currentController)) {
+async function openEditModalByIndex(index) {
+  if (
+    typeof canModifyEntity === "function" &&
+    !canModifyEntity(currentController)
+  ) {
     alert("Нет прав на изменение");
     return;
   }
@@ -498,22 +733,32 @@ function openEditModalByIndex(index) {
   var idKey = getIdKey(currentController);
 
   modalMode = "edit";
-  editItemId = pickField(item, idKey);
+  editItemId = pick(item, idKey);
   if (editItemId == null) editItemId = item[currentKeys[0]];
 
-  document.getElementById("modalTitle").textContent = "Изменить запись #" + editItemId;
+  document.getElementById("modalTitle").textContent =
+    "Изменить запись #" + editItemId;
 
   var fieldsEl = document.getElementById("modalFields");
   fieldsEl.innerHTML = "";
 
   if (schema) {
-    var idField = makeInputField(idKey, idKey, "number", editItemId);
+    await ensureRefsForSchema(schema);
+
+    var idField = makeInputField(idKey, "№", "number", editItemId);
     idField.querySelector("input").readOnly = true;
     idField.querySelector("input").style.opacity = "0.6";
     fieldsEl.appendChild(idField);
 
     schema.fields.forEach(function (f) {
-      fieldsEl.appendChild(makeInputField(f.name, f.label, f.type, pickField(item, f.name)));
+      var val = pick(item, f.name);
+      if (f.type === "ref") {
+        fieldsEl.appendChild(makeRefSelect(f, val));
+      } else {
+        fieldsEl.appendChild(
+          makeInputField(f.name, f.label, f.type, val, f.placeholder)
+        );
+      }
     });
   } else {
     currentKeys.forEach(function (k) {
@@ -534,7 +779,10 @@ function closeModal() {
 }
 
 async function saveModal() {
-  if (typeof canModifyEntity === "function" && !canModifyEntity(currentController)) {
+  if (
+    typeof canModifyEntity === "function" &&
+    !canModifyEntity(currentController)
+  ) {
     alert("Нет прав на сохранение");
     return;
   }
@@ -542,15 +790,16 @@ async function saveModal() {
   var body;
 
   if (schema) {
-    body = collectBodyFromForm(schema, false); // id не в body
+    body = collectBodyFromForm(schema);
   } else {
     body = {};
-    document.querySelectorAll("#modalFields input[data-key]").forEach(function (inp) {
-      var v = inp.value;
-      if (inp.readOnly) return;
-      if (v === "") body[inp.dataset.key] = null;
-      else if (!isNaN(v) && String(v).trim() !== "") body[inp.dataset.key] = Number(v);
-      else body[inp.dataset.key] = v;
+    document.querySelectorAll("#modalFields [data-key]").forEach(function (el) {
+      if (el.readOnly) return;
+      var v = el.value;
+      if (v === "") body[el.dataset.key] = null;
+      else if (!isNaN(v) && String(v).trim() !== "")
+        body[el.dataset.key] = Number(v);
+      else body[el.dataset.key] = v;
     });
   }
 
@@ -559,12 +808,21 @@ async function saveModal() {
     return;
   }
 
+
+  if (schema) {
+    for (var i = 0; i < schema.fields.length; i++) {
+      var f = schema.fields[i];
+      if (f.type === "ref" && (body[f.name] == null || body[f.name] === "")) {
+        alert("Выберите значение: " + f.label);
+        return;
+      }
+    }
+  }
+
   var result;
   if (modalMode === "add") {
-    // POST /Controller  body JSON
     result = await api(currentController, "POST", body);
   } else {
-    // PUT /Controller?id=N  body JSON  (как в API: Put(int id, T item))
     result = await api(
       currentController + "?id=" + encodeURIComponent(editItemId),
       "PUT",
@@ -574,6 +832,7 @@ async function saveModal() {
 
   if (result === null) return;
 
+  delete refCache[currentController];
   closeModal();
   loadEntity(currentController);
 }
